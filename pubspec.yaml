@@ -1,0 +1,67 @@
+name: pyramend
+description: A new Flutter project.
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.1.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  bloc: ^8.1.3
+  calendar_agenda:
+    path: dev_lib/calendar_agenda/
+  cupertino_icons: ^1.0.2
+  equatable: ^2.0.5
+  flutter_bloc: ^8.1.4
+  getwidget: ^4.0.0
+  http: ^1.2.0
+  dio: ^5.4.3+1
+  intl: ^0.18.0
+  json_annotation: ^4.8.1
+  json_serializable: ^6.7.1
+  path_provider: ^2.1.3
+  pedometer: ^4.0.1
+  percent_indicator: ^4.2.3
+  readmore: ^3.0.0
+  sqflite: ^2.3.2
+  syncfusion_flutter_charts: ^25.1.0
+  syncfusion_flutter_core:
+  flutter_local_notifications: ^17.1.2
+  android_alarm_manager_plus: ^4.0.3
+  conditional_builder_null_safety: ^0.0.6
+  sqlite3_flutter_libs:
+  fluttertoast: ^8.2.5
+  shared_preferences: ^2.2.2
+  duration_picker: ^1.1.1
+  flutter_ringtone_player: ^3.0.0
+  sleek_circular_slider: ^2.0.1
+  flutter_slidable: ^3.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_launcher_icons: "^0.13.1"
+  flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/imgs/logo.png"
+  min_sdk_android: 21
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/imgs/
+    - assets/icons/
+    - assets/imgs/fitness/
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700
