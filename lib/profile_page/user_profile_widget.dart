@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:pyramend/authentication/views/provider.dart';
+import 'package:pyramend/shared/componenets/constants/constants.dart';
+import 'package:pyramend/task_management/shared/components/components.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'edit_profile.dart';
+import 'profile_detail_card.dart';
+import 'profile_image.dart';
+import 'profile_option.dart';
+import 'profile_section.dart';
 import 'package:pyramend/dashboard/views/home_page.dart';
 import 'package:pyramend/fitness/views/daily_workouts.dart';
 import 'package:pyramend/health/views/health.dart';
 import 'package:pyramend/meals/views/meal_view.dart';
-import 'package:pyramend/profile_page/edit_profile.dart';
-import 'package:pyramend/profile_page/profile_detail_card.dart';
-import 'package:pyramend/profile_page/profile_image.dart';
-import 'package:pyramend/profile_page/profile_option.dart';
-import 'package:pyramend/profile_page/profile_section.dart';
 import 'package:pyramend/shared/componenets/common_widgets/nav_bar.dart';
-import 'package:pyramend/task_management/shared/components/components.dart';
 import 'package:pyramend/task_management/views/todo_app_home.dart';
 import 'package:pyramend/water_intake/views/water_intake.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -65,10 +68,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
     return Scaffold(
       appBar: AppBar(
-          title: const Text(
+          title: Text(
             'User Profile',
             style: TextStyle(
-              fontSize: 18,
+              color: Colors.black,
+              fontSize: mediumFontSize,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -96,11 +100,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                   ),
-                  ElevatedButton(
+                  IconButton(
                     onPressed: () {
                       navigateTo(context, EditProfile());
                     },
-                    child: const Text("edit"),
+                    icon: const Icon(Icons.edit),
+                    color: Colors.grey,
                   ),
                 ],
               ),
@@ -137,7 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ProfileSection(
                 title: "Account",
                 options: [
-                  const ProfileOption(
+                  ProfileOption(
                     destination: MealView(),
                     icon: 'assets/icons/meal_menu_icon.png',
                     label: "Track your Meals",
@@ -152,12 +157,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     icon: 'assets/icons/task_menu_icon.png',
                     label: "Check your Tasks",
                   ),
-                  const ProfileOption(
+                  ProfileOption(
                     destination: WaterIntakeHome(),
                     icon: 'assets/icons/water_menu_icon.png',
                     label: "Track your Water Intake",
                   ),
-                  const ProfileOption(
+                  ProfileOption(
                     destination: HealthView(),
                     icon: 'assets/imgs/pills.png',
                     label: "Follow your Medications",
@@ -165,24 +170,28 @@ class _ProfilePageState extends State<ProfilePage> {
                 ],
               ),
               sizedBoxHeight(30),
-              const ProfileSection(
+              ProfileSection(
                 title: "Other",
                 options: [
                   ProfileOption(
                     destination: HomePage(),
-                    icon: Icons.mail_outline,
+                    icon: Icons.mail_outline.codePoint.toString(),
                     label: "Contact Us",
                   ),
                   ProfileOption(
                     destination: HomePage(),
-                    icon: Icons.privacy_tip_outlined,
+                    icon: Icons.privacy_tip_outlined.codePoint.toString(),
                     label: "Privacy Policy",
                   ),
-                  // ProfileOption(
-                  //   destination: HomePage(),
-                  //   icon: Icons.logout,
-                  //   label: "User Logout",
-                  // ),
+                  ProfileOption(
+                    destination: HomePage(),
+                    icon: Icons.logout.codePoint.toString(),
+                    label: "User Logout",
+                    onTap: () {
+                      Provider.of<UserProvider>(context, listen: false)
+                          .clearLoginState(context);
+                    },
+                  ),
                 ],
               ),
             ],
@@ -191,5 +200,9 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       bottomNavigationBar: const NavBarView(),
     );
+  }
+
+  SizedBox sizedBoxHeight(double height) {
+    return SizedBox(height: height);
   }
 }

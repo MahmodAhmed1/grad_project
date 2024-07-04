@@ -20,17 +20,17 @@ class GreetingText extends StatelessWidget {
               "Good ${cubit.getGreeting()},",
               style: const TextStyle(
                 color: Color(0xFF046381),
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 6),
             Text(
-              cubit.userName,
+              "${cubit.userName}",
               style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         );

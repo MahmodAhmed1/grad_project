@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:pyramend/shared/componenets/constants/constants.dart';
 
 import '../../authentication/views/provider.dart';
 import '../../shared/componenets/common_widgets/buttons.dart';
@@ -56,11 +57,12 @@ class _HealthViewState extends State<HealthView> {
             '\nYou should contact your doctor urgently to recover these medicines.';
       }
 
+      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(
+            title: const Text(
               'Missed Medicines',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -75,7 +77,7 @@ class _HealthViewState extends State<HealthView> {
                 Text(
                   message,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w400,
                   ),
@@ -83,7 +85,7 @@ class _HealthViewState extends State<HealthView> {
                 Text(
                   message2,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w600,
                   ),
@@ -91,7 +93,7 @@ class _HealthViewState extends State<HealthView> {
                 Text(
                   message3,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.red,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w600,
@@ -105,7 +107,7 @@ class _HealthViewState extends State<HealthView> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text(
+                child: const Text(
                   'Close',
                   style: TextStyle(color: Color(0xFF1BD15D)),
                 ),
@@ -129,17 +131,16 @@ class _HealthViewState extends State<HealthView> {
         title: Text(
           'Medicine Schedule',
           style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
-            height: 1.5,
+            color: Colors.black,
+            fontSize: mediumFontSize,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
       body: Container(
         color: Colors.white,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(18, 35, 16, 24),
+          padding: const EdgeInsets.fromLTRB(18, 35, 16, 24),
           child: Consumer<UserProvider>(
             builder: (context, userProvider, child) {
               return RefreshIndicator(
@@ -148,7 +149,7 @@ class _HealthViewState extends State<HealthView> {
                   future: medicineFuture,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Text('An error occurred: ${snapshot.error}');
                     } else {
@@ -164,13 +165,13 @@ class _HealthViewState extends State<HealthView> {
                       return Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.fromLTRB(10, 0, 10, 35),
+                            margin: const EdgeInsets.fromLTRB(10, 0, 10, 35),
                             child: Align(
                               alignment: Alignment.topLeft,
                               child: RichText(
                                 text: TextSpan(
                                   text: 'Hello, \n',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w600,
                                     fontSize: 28,
@@ -180,7 +181,7 @@ class _HealthViewState extends State<HealthView> {
                                   children: [
                                     TextSpan(
                                       text: '$userName',
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w400,
                                         fontSize: 28,
@@ -194,22 +195,22 @@ class _HealthViewState extends State<HealthView> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.fromLTRB(10, 0, 0, 39),
+                            margin: const EdgeInsets.fromLTRB(10, 0, 0, 39),
                             child: Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 28, 0),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 28, 0),
                               child: Stack(
                                 clipBehavior: Clip.none,
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: Color(0xFFF3F6C8),
+                                      color: const Color(0xFFF3F6C8),
                                       borderRadius: BorderRadius.circular(28),
                                     ),
                                     child: SizedBox(
                                       width: double.infinity,
                                       child: Container(
-                                        padding:
-                                            EdgeInsets.fromLTRB(24, 53, 0, 53),
+                                        padding: const EdgeInsets.fromLTRB(
+                                            24, 53, 0, 53),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
@@ -217,9 +218,9 @@ class _HealthViewState extends State<HealthView> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              margin: EdgeInsets.fromLTRB(
+                                              margin: const EdgeInsets.fromLTRB(
                                                   0, 0, 0, 2),
-                                              child: Align(
+                                              child: const Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
                                                   'Your plan\nfor today',
@@ -241,7 +242,7 @@ class _HealthViewState extends State<HealthView> {
                                                 opacity: 0.6,
                                                 child: Text(
                                                   '$takenCount of $medicineCount done',
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontFamily: 'Poppins',
                                                     decoration:
                                                         TextDecoration.none,
@@ -266,7 +267,7 @@ class _HealthViewState extends State<HealthView> {
                                           MainAxisAlignment.center,
                                       children: [
                                         Container(
-                                          decoration: BoxDecoration(
+                                          decoration: const BoxDecoration(
                                             image: DecorationImage(
                                               fit: BoxFit.cover,
                                               image: AssetImage(
@@ -287,7 +288,7 @@ class _HealthViewState extends State<HealthView> {
                             ),
                           ),
                           Container(
-                            child: Align(
+                            child: const Align(
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Daily Review',
@@ -330,10 +331,10 @@ class _HealthViewState extends State<HealthView> {
                                           child: Material(
                                             // Ensure there is a Material widget ancestor
                                             child: Container(
-                                              margin: EdgeInsets.fromLTRB(
+                                              margin: const EdgeInsets.fromLTRB(
                                                   0, 0, 0, 12),
                                               decoration: BoxDecoration(
-                                                color: Color(0xFFF8F8F6),
+                                                color: const Color(0xFFF8F8F6),
                                                 borderRadius:
                                                     BorderRadius.circular(24),
                                                 boxShadow: [
@@ -345,14 +346,15 @@ class _HealthViewState extends State<HealthView> {
                                                     // Spread radius
                                                     blurRadius: 7,
                                                     // Blur radius
-                                                    offset: Offset(-2,
+                                                    offset: const Offset(-2,
                                                         5), // Offset (horizontal, vertical)
                                                   ),
                                                 ],
                                               ),
                                               child: Container(
-                                                padding: EdgeInsets.fromLTRB(
-                                                    30, 14, 12.3, 15),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        30, 14, 12.3, 15),
                                                 child: Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
@@ -369,9 +371,10 @@ class _HealthViewState extends State<HealthView> {
                                                               .start,
                                                       children: [
                                                         Container(
-                                                          margin: EdgeInsets
-                                                              .fromLTRB(0, 14,
-                                                                  18, 13),
+                                                          margin:
+                                                              const EdgeInsets
+                                                                  .fromLTRB(0,
+                                                                  14, 18, 13),
                                                           width: 20,
                                                           height: 20,
                                                           child: Image.asset(
@@ -392,7 +395,7 @@ class _HealthViewState extends State<HealthView> {
                                                               child: Text(
                                                                 '$medName | Dose: $dose',
                                                                 style:
-                                                                    TextStyle(
+                                                                    const TextStyle(
                                                                   decoration:
                                                                       TextDecoration
                                                                           .none,
@@ -418,7 +421,7 @@ class _HealthViewState extends State<HealthView> {
                                                                 Text(
                                                                   '$hour | $statusText | $howLong days',
                                                                   style:
-                                                                      TextStyle(
+                                                                      const TextStyle(
                                                                     decoration:
                                                                         TextDecoration
                                                                             .none,
@@ -435,15 +438,16 @@ class _HealthViewState extends State<HealthView> {
                                                                 ),
                                                               ],
                                                             ),
-                                                            SizedBox(width: 10),
+                                                            const SizedBox(
+                                                                width: 10),
                                                           ],
                                                         ),
                                                       ],
                                                     ),
                                                     Container(
-                                                      margin:
-                                                          EdgeInsets.fromLTRB(
-                                                              0, 12.8, 0, 7.7),
+                                                      margin: const EdgeInsets
+                                                          .fromLTRB(
+                                                          0, 12.8, 0, 7.7),
                                                       child: SizedBox(
                                                         width: 48,
                                                         child: Row(
@@ -482,12 +486,12 @@ class _HealthViewState extends State<HealthView> {
                                                                           : 1,
                                                                   child:
                                                                       Container(
-                                                                    margin: EdgeInsets
+                                                                    margin: const EdgeInsets
                                                                         .fromLTRB(
-                                                                            0,
-                                                                            0,
-                                                                            3.5,
-                                                                            0),
+                                                                        0,
+                                                                        0,
+                                                                        3.5,
+                                                                        0),
                                                                     width: 22.5,
                                                                     height:
                                                                         22.5,
@@ -515,7 +519,8 @@ class _HealthViewState extends State<HealthView> {
                                                                             animation,
                                                                         child:
                                                                             Container(
-                                                                          margin: EdgeInsets.fromLTRB(
+                                                                          margin: const EdgeInsets
+                                                                              .fromLTRB(
                                                                               0,
                                                                               0,
                                                                               0,
@@ -524,7 +529,7 @@ class _HealthViewState extends State<HealthView> {
                                                                               Container(
                                                                             decoration:
                                                                                 BoxDecoration(
-                                                                              color: Color(0xFFF8F8F6),
+                                                                              color: const Color(0xFFF8F8F6),
                                                                               borderRadius: BorderRadius.circular(24),
                                                                             ),
                                                                           ),
@@ -551,12 +556,12 @@ class _HealthViewState extends State<HealthView> {
                                                                 },
                                                                 child:
                                                                     Container(
-                                                                  margin: EdgeInsets
+                                                                  margin: const EdgeInsets
                                                                       .fromLTRB(
-                                                                          0,
-                                                                          0,
-                                                                          0,
-                                                                          0),
+                                                                      0,
+                                                                      0,
+                                                                      0,
+                                                                      0),
                                                                   child:
                                                                       SizedBox(
                                                                     width: 22.5,
@@ -587,10 +592,10 @@ class _HealthViewState extends State<HealthView> {
                                     )
                                   : snapshot.data?['message'] ==
                                           'You have not added any medicines yet.'
-                                      ? Center(
+                                      ? const Center(
                                           child: Text(
                                               'You have not added any medicines yet.'))
-                                      : Center(child: Text('Loading...')),
+                                      : const Center(child: Text('Loading...')),
                             ),
                           ),
                           Container(
@@ -600,7 +605,7 @@ class _HealthViewState extends State<HealthView> {
                                   color: Colors.grey.withOpacity(0.3),
                                   spreadRadius: 10,
                                   blurRadius: 15,
-                                  offset: Offset(0, 5),
+                                  offset: const Offset(0, 5),
                                 ),
                               ],
                             ),
@@ -611,7 +616,7 @@ class _HealthViewState extends State<HealthView> {
                                   child: RoundedButton(
                                     height: 60,
                                     width: double.maxFinite,
-                                    backgroundColor: Color(0xbeE42121),
+                                    backgroundColor: const Color(0xbeE42121),
                                     textColor: Ucolor.white,
                                     child: Row(
                                       mainAxisAlignment:
@@ -622,7 +627,7 @@ class _HealthViewState extends State<HealthView> {
                                             height: 20,
                                             width: 19),
                                         // Adjust size as needed
-                                        SizedBox(width: 8),
+                                        const SizedBox(width: 8),
                                         // Adjust spacing as needed
                                         Text(
                                           'Missed',

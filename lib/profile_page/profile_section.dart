@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pyramend/authentication/views/provider.dart';
-import 'package:pyramend/profile_page/profile_option.dart';
-// import '../../authentication/views/provider.dart';
-import 'package:provider/provider.dart';
+import 'profile_option.dart';
 
 class ProfileSection extends StatelessWidget {
   final String title;
@@ -40,43 +37,6 @@ class ProfileSection extends StatelessWidget {
           ),
           sizedBoxHeight(20),
           ...options,
-          InkWell(
-            onTap: () {
-              Provider.of<UserProvider>(context, listen: false)
-                  .clearLoginState(context);
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.symmetric(vertical: 16, horizontal: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(Icons.logout),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Text("User Logout"),
-                    ),
-                    Icon(
-                      Icons.chevron_right_rounded,
-                      color: Colors.grey,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );
@@ -85,8 +45,4 @@ class ProfileSection extends StatelessWidget {
   SizedBox sizedBoxHeight(double height) {
     return SizedBox(height: height);
   }
-}
-
-SizedBox sizedBoxWidth(double width) {
-  return SizedBox(width: width);
 }

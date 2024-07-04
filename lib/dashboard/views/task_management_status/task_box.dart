@@ -45,10 +45,15 @@ class TaskItemContainer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "${task["taskName"]}",
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 180),
+                  child: Text(
+                    "${task["taskName"]}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
                 ),
                 sizedBoxHeight(5),
                 Text(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pyramend/shared/componenets/constants/constants.dart';
 import 'package:pyramend/task_management/views/archive_todo_app.dart';
 import 'package:pyramend/task_management/views/daily_schedule.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,10 +35,11 @@ class TodoAppHome extends StatelessWidget {
               },
               icon: arrowBackIcon,
             ),
-            title: const Text(
+            title: Text(
               "To-Do",
               style: TextStyle(
-                fontSize: 20,
+                color: Colors.black,
+                fontSize: mediumFontSize,
                 fontWeight: FontWeight.bold,
               ),
             ),

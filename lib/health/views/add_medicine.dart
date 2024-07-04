@@ -19,7 +19,8 @@ class AddMedicine extends StatefulWidget {
 class _AddMedicineState extends State<AddMedicine> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _medNameController = TextEditingController();
-  final TextEditingController _notificationHourController = TextEditingController();
+  final TextEditingController _notificationHourController =
+      TextEditingController();
   final TextEditingController _howLongController = TextEditingController();
   String _pillsDuration = 'BeforeEating'; // Default value
   String _dose = '0.5';
@@ -38,17 +39,18 @@ class _AddMedicineState extends State<AddMedicine> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Row(
+          title: const Row(
             children: [
               Icon(Icons.warning, color: Colors.red),
               SizedBox(width: 8),
               Text('Emergency Note'),
             ],
           ),
-          content: Text('You MUST do a sensitivity test before you take the medicine'),
+          content: const Text(
+              'You MUST do a sensitivity test before you take the medicine'),
           actions: [
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -61,9 +63,9 @@ class _AddMedicineState extends State<AddMedicine> {
 
   Future<void> _addMedicine() async {
     if (_formKey.currentState!.validate()) {
-
       try {
-        final response = await Provider.of<UserProvider>(context, listen: false).addMedicine(
+        final response =
+            await Provider.of<UserProvider>(context, listen: false).addMedicine(
           medName: _medNameController.text,
           dose: _dose,
           notificationHour: _notificationHour,
@@ -71,7 +73,8 @@ class _AddMedicineState extends State<AddMedicine> {
           pillsDuration: _pillsDuration,
         );
         if (response) {
-          print('Scheduling notification for the specified hour: $_notificationHour');
+          print(
+              'Scheduling notification for the specified hour: $_notificationHour');
           await _scheduleNotification(_notificationHour);
           Navigator.pop(context, true);
           setState(() {});
@@ -92,9 +95,11 @@ class _AddMedicineState extends State<AddMedicine> {
     final int minute = int.parse(timeParts[1]);
 
     final DateTime now = DateTime.now();
-    DateTime scheduledDate = DateTime(now.year, now.month, now.day, hour, minute);
+    DateTime scheduledDate =
+        DateTime(now.year, now.month, now.day, hour, minute);
     if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(Duration(days: 1)); // Schedule for the next day if the time has already passed
+      scheduledDate = scheduledDate.add(const Duration(
+          days: 1)); // Schedule for the next day if the time has already passed
     }
 
     tz.initializeTimeZones();
@@ -109,16 +114,19 @@ class _AddMedicineState extends State<AddMedicine> {
       scheduledDate.minute,
     );
 
-    print('Notification scheduled for $scheduledDateTime in timezone $timeZoneName'); // Debug statement
+    print(
+        'Notification scheduled for $scheduledDateTime in timezone $timeZoneName'); // Debug statement
 
-    AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    AndroidNotificationDetails androidPlatformChannelSpecifics =
+        const AndroidNotificationDetails(
       'your_channel_id', // Replace with a unique channel ID
       'your_channel_name', // Replace with a channel name
       importance: Importance.max,
       priority: Priority.high,
     );
 
-    NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+    NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
       0,
@@ -126,7 +134,8 @@ class _AddMedicineState extends State<AddMedicine> {
       'Time to take your medicine!',
       scheduledDateTime,
       platformChannelSpecifics,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
     );
     print('Notification scheduled successfully'); // Debug statement
@@ -134,12 +143,12 @@ class _AddMedicineState extends State<AddMedicine> {
 
   Widget buildTitle(String text) {
     return Container(
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 4),
       child: Align(
         alignment: Alignment.topLeft,
         child: Text(
           text,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w700,
             fontSize: 15,
@@ -172,7 +181,7 @@ class _AddMedicineState extends State<AddMedicine> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Add Medicine',
           style: TextStyle(
             fontFamily: 'Poppins',
@@ -196,7 +205,8 @@ class _AddMedicineState extends State<AddMedicine> {
                       RoundedTextField(
                         controller: _medNameController,
                         hintText: 'Name',
-                        prefixIconPath: 'assets/imgs/pills.png', // Adjust the path as needed
+                        prefixIconPath:
+                            'assets/imgs/pills.png', // Adjust the path as needed
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a valid medicine name';
@@ -208,7 +218,7 @@ class _AddMedicineState extends State<AddMedicine> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           buildTitle('Dose'),
-                          Text(
+                          const Text(
                             "Too much pills can cause death",
                             style: TextStyle(color: Colors.red, fontSize: 12),
                           ),
@@ -219,23 +229,25 @@ class _AddMedicineState extends State<AddMedicine> {
                         prefixIconPath: 'assets/imgs/2pills.png',
                         dropdownItems: List.generate(
                           10,
-                              (index) => (0.5 * (index + 1)).toString(),
+                          (index) => (0.5 * (index + 1)).toString(),
                         ),
                         onChanged: (value) {
                           setState(() {
                             _dose = value!;
                           });
                         },
-
                       ),
                       buildTitle('How Long'),
                       RoundedTextField(
                         controller: _howLongController,
                         hintText: 'In Days',
                         keyboardType: TextInputType.number,
-                        prefixIconPath: 'assets/imgs/calendar.png', // Adjust the path as needed
+                        prefixIconPath:
+                            'assets/imgs/calendar.png', // Adjust the path as needed
                         validator: (value) {
-                          if (value == null || value.isEmpty || !RegExp(r'^\d+$').hasMatch(value)) {
+                          if (value == null ||
+                              value.isEmpty ||
+                              !RegExp(r'^\d+$').hasMatch(value)) {
                             return 'Please enter a valid duration';
                           }
                           return null;
@@ -257,7 +269,7 @@ class _AddMedicineState extends State<AddMedicine> {
                               },
                             ),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           // Add some spacing between the boxes
                           Expanded(
                             child: SelectableBox(
@@ -271,7 +283,7 @@ class _AddMedicineState extends State<AddMedicine> {
                               },
                             ),
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           // Add some spacing between the boxes
                           Expanded(
                             child: SelectableBox(
@@ -304,21 +316,21 @@ class _AddMedicineState extends State<AddMedicine> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.2),
                     spreadRadius: 3,
                     blurRadius: 7,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
                 gradient: LinearGradient(

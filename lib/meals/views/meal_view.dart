@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:pyramend/meals/views/recommend_meals.dart';
+import 'package:pyramend/shared/componenets/constants/constants.dart';
 import '../../authentication/views/provider.dart';
 import '../../shared/componenets/common_widgets/buttons.dart'; // Assuming you have a RoundedButton widget
 import '../../shared/styles/colors/colors.dart'; // Assuming you have a Ucolor class for colors
@@ -41,15 +42,14 @@ class _MealViewState extends State<MealView> {
         title: Text(
           'Meal Schedule',
           style: TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
-            height: 1.5,
+            color: Colors.black,
+            fontSize: mediumFontSize,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
       body: meals.isEmpty
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: _refreshMeals,
               child: Column(
@@ -60,7 +60,7 @@ class _MealViewState extends State<MealView> {
                       padding: const EdgeInsets.all(
                           10.0), // Adjust the padding as needed
                       child: ListView(
-                        physics: AlwaysScrollableScrollPhysics(),
+                        physics: const AlwaysScrollableScrollPhysics(),
                         children: [
                           buildMealSection('Breakfast'),
                           buildMealSection('Lunch'),
@@ -84,7 +84,7 @@ class _MealViewState extends State<MealView> {
     String messageText = caloriesLeft <= 0 ? 'Goal Reached!' : 'Keep Going!';
 
     return Container(
-      margin: EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(16.0),
       height: 230, // Adjust height as needed to make the image bigger
       child: Stack(
         children: [
@@ -102,7 +102,7 @@ class _MealViewState extends State<MealView> {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -118,7 +118,7 @@ class _MealViewState extends State<MealView> {
                     children: [
                       Text(
                         'Suggested calories\nneeded: $totalNeedCalories',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           color: Colors.white,
                           fontSize: 16,
@@ -127,7 +127,7 @@ class _MealViewState extends State<MealView> {
                       ),
                       Text(
                         messageText,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                         ),
@@ -143,12 +143,12 @@ class _MealViewState extends State<MealView> {
                       children: [
                         Text(
                           caloriesLeft <= 0 ? 'Nothing' : '$caloriesLeft',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.orange,
                             fontSize: 12,
                           ),
                         ),
-                        Text(
+                        const Text(
                           'Cal left',
                           style: TextStyle(
                             color: Colors.orange,
@@ -179,7 +179,7 @@ class _MealViewState extends State<MealView> {
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 10,
             blurRadius: 15,
-            offset: Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -190,14 +190,14 @@ class _MealViewState extends State<MealView> {
             child: RoundedButton(
               height: 60,
               width: double.maxFinite,
-              backgroundColor: Color(0xbefc8f10),
+              backgroundColor: const Color(0xbefc8f10),
               textColor: Ucolor.white,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset('assets/imgs/recommend_icon.png',
                       height: 20, width: 20),
-                  SizedBox(width: 8),
+                  const SizedBox(width: 8),
                   Text(
                     'Recommend',
                     style: TextStyle(
@@ -223,7 +223,7 @@ class _MealViewState extends State<MealView> {
             child: RoundedButton(
               width: double.maxFinite,
               height: 60,
-              backgroundColor: Color(0xbefc8f10),
+              backgroundColor: const Color(0xbefc8f10),
               textColor: Ucolor.white,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -274,7 +274,7 @@ class _MealViewState extends State<MealView> {
       totalCalories += meal['calories'] as int;
     }
     return mealTypeList.isEmpty
-        ? SizedBox.shrink()
+        ? const SizedBox.shrink()
         : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -285,15 +285,15 @@ class _MealViewState extends State<MealView> {
                   children: [
                     Text(
                       '$mealType',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
                     Text(
                       '$mealCount meals | $totalCalories calories',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
                         fontSize: 12,
@@ -305,7 +305,7 @@ class _MealViewState extends State<MealView> {
                 ),
               ),
               ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: mealTypeList.length,
                 itemBuilder: (context, index) {
@@ -352,7 +352,7 @@ class _MealViewState extends State<MealView> {
           Row(
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 21, 0),
+                margin: const EdgeInsets.fromLTRB(0, 0, 21, 0),
                 child: Opacity(
                   opacity: 1,
                   child: Container(
@@ -375,16 +375,16 @@ class _MealViewState extends State<MealView> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.fromLTRB(0, 9, 0, 9),
+                margin: const EdgeInsets.fromLTRB(0, 9, 0, 9),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
+                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 3),
                       child: Text(
                         meal['mealName'],
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w700,
                           fontSize: 14,
@@ -397,7 +397,7 @@ class _MealViewState extends State<MealView> {
                       alignment: Alignment.topLeft,
                       child: Text(
                         '${meal['NotificationHour']} | $statusText | $calories calories', // Display calories here
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w400,
                           fontSize: 12,
@@ -432,7 +432,7 @@ class _MealViewState extends State<MealView> {
                 child: Opacity(
                   opacity: taken ? 0.3 : 1,
                   child: Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 3.5, 0),
+                    margin: const EdgeInsets.fromLTRB(0, 0, 3.5, 0),
                     width: 22.5,
                     height: 22.5,
                     child: Image.asset('assets/imgs/checked.png'),
@@ -452,7 +452,7 @@ class _MealViewState extends State<MealView> {
                   }
                 },
                 child: Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                   child: SizedBox(
                     width: 22.5,
                     height: 22.5,

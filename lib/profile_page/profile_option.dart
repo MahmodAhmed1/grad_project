@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 
 class ProfileOption extends StatelessWidget {
-  final dynamic icon;
-  final String label;
   final Widget destination;
+  final String icon;
+  final String label;
+  final VoidCallback? onTap;
 
   const ProfileOption({
     Key? key,
+    required this.destination,
     required this.icon,
     required this.label,
-    required this.destination,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => destination),
-        );
-      },
+      onTap: onTap ??
+          () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => destination),
+            );
+          },
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -35,22 +38,20 @@ class ProfileOption extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 0),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              icon is IconData
-                  ? Icon(icon)
-                  : SizedBox(
-                      width: 25,
-                      child: Image.asset(
-                        icon,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+              icon.startsWith('assets/')
+                  ? Image.asset(icon, height: 24, width: 24)
+                  : Icon(
+                      IconData(int.parse(icon), fontFamily: 'MaterialIcons')),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(label),
+                child: Text(
+                  label,
+                  style: const TextStyle(fontSize: 16),
+                ),
               ),
               const Icon(
                 Icons.chevron_right_rounded,

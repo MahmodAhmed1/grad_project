@@ -4,12 +4,14 @@ import 'package:provider/provider.dart';
 import 'package:pyramend/dashboard/data/models/chart_spline_data.dart';
 import 'package:pyramend/dashboard/views/task_management_status/dashboard_tasks.dart';
 import 'package:pyramend/dashboard/views/water_status/activity_status_widget.dart';
+import 'package:pyramend/profile_page/user_profile_widget.dart';
 import 'package:pyramend/shared/componenets/common_widgets/chart_container.dart';
 import 'package:pyramend/shared/componenets/common_widgets/circular_indicator.dart';
 import 'package:pyramend/shared/componenets/common_widgets/nav_bar.dart';
 import 'package:pyramend/shared/componenets/common_widgets/workout_progress_container.dart';
 import 'package:pyramend/shared/styles/colors/colors.dart';
 import 'package:pyramend/task_management/shared/components/components.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../authentication/views/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,13 +22,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String userName = '';
   int _steps = 0;
   late Stream<StepCount> _stepCountStream;
 
   @override
   void initState() {
     super.initState();
+    _loadUserData();
+
     _initPedometer();
+  }
+
+  Future<void> _loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString('userName') ?? '';
+    });
   }
 
   void _initPedometer() {
@@ -58,6 +70,47 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ProfilePage(),
+                    ),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Hello,',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          Text(
+                            "$userName",
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Ucolor.black,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Image.asset('assets/icons/profile_menu_icon.png',
+                        width: 24, height: 24),
+                  ],
+                ),
+              ),
+              sizedBoxHeight(20),
               TasksDashboardContainer(),
               sizedBoxHeight(30),
               const Text(
@@ -78,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                       CircularIndicator(
                         unit: 'steps',
                         goal: 10000,
-                        value: _steps,
+                        value: 4402,
                         indicatorColor: Ucolor.DarkGray,
                         GradientBackgroundColor: Ucolor.fitnessPrimaryColors,
                       ),
@@ -104,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                   Provider.of<UserProvider>(context, listen: false)
                       .clearLoginState(context);
                 },
-                child: Text("Logout"),
+                child: const Text("Logout"),
               ),
             ],
           ),

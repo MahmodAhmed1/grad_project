@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pyramend/shared/componenets/constants/constants.dart';
 import 'package:pyramend/task_management/shared/components/components.dart';
 import 'package:pyramend/task_management/shared/constants/icons.dart';
 import 'package:pyramend/water_intake/views/add_water_button.dart';
@@ -33,10 +34,11 @@ class WaterIntakeHome extends StatelessWidget {
               },
               icon: arrowBackIcon,
             ),
-            title: const Text(
+            title: Text(
               "Water Intake",
               style: TextStyle(
-                fontSize: 20,
+                color: Colors.black,
+                fontSize: mediumFontSize,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -56,10 +58,11 @@ class WaterIntakeHome extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const GreetingText(),
+                          const SizedBox(height: 20),
                           const WaterRecommendation(),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 50),
                           const WaterConsumptionStatus(),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 100),
                           const AddWaterButton(),
                           const SizedBox(height: 50),
                           Center(

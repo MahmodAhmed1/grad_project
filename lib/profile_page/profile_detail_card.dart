@@ -40,7 +40,7 @@ class ProfileDetailCard extends StatelessWidget {
             label,
             style: const TextStyle(
               fontSize: 16,
-              color: Colors.grey,
+              color: Color.fromARGB(255, 102, 102, 102),
             ),
           ),
         ],
