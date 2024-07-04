@@ -1,28 +1,29 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:pyramend/authentication/views/provider.dart';
 import 'package:pyramend/shared/componenets/constants/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TaskService {
   static String baseUrl = APIurlLocal;
-  static const String token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTdjYWNjZTQyYjlkMDA0NDdmMzNmMyIsImlhdCI6MTcxOTE4ODIxMCwiZXhwIjoxNzM2NDY4MjEwfQ.rIPiocJB77rmAnw4uyi_u_hG3BLCGc7DSdUiB_Kty1U';
+
+  // static String userToken = token;
 
   Future<List<dynamic>> fetchTasks() async {
     try {
-      print('Sending request to $baseUrl/task/getTasks');
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.get(
         Uri.parse('$baseUrl/task/getTasks'),
         headers: {
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer $userToken',
           'Content-Type': 'application/json',
         },
       );
-      // print('Response status code: ${response.statusCode}');
-      // print('Response body: ${response.body}');
+      print('Response status code: ${response.statusCode}');
 
       if (response.statusCode == 201) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        // print(data['data']);
         return data['data'];
       } else {
         throw Exception('Failed to load tasks: ${response.statusCode}');
@@ -36,16 +37,17 @@ class TaskService {
   Future<Map<String, dynamic>> addTask(Map<String, dynamic> taskData) async {
     try {
       print('Sending request to $baseUrl/task/addTask');
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.post(
         Uri.parse('$baseUrl/task/addTask'),
         headers: {
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer $userToken',
           'Content-Type': 'application/json',
         },
         body: jsonEncode(taskData),
       );
       print('Response status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
 
       final responseData = jsonDecode(response.body);
 
@@ -62,9 +64,26 @@ class TaskService {
 
   Future<List<dynamic>> fetchTasksByFilter(Map<String, dynamic> filter) async {
     try {
-      // Convert DateTime objects to ISO 8601 strings
-      print(filter);
-
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
+      // String userName = prefs.getString('userName') ?? '';
+      // String activityLevel = prefs.getString('activityLevel') ?? '';
+      // String gender = prefs.getString('gender') ?? '';
+      // String goal = prefs.getString('goal') ?? '';
+      // String email = prefs.getString('email') ?? '';
+      // int height = prefs.getInt('height') ?? 0;
+      // int age = prefs.getInt('age') ?? 0;
+      // int weight = prefs.getInt('weight') ?? 0;
+      // print('User Details:');
+      // print('Username: $userName');
+      // print('Activity Level: $activityLevel');
+      // print('Gender: $gender');
+      // print('Goal: $goal');
+      // print('Email: $email');
+      // print('Height: $height');
+      // print('Age: $age');
+      // print('Weight: $weight');
+      // print('Sending request to $baseUrl/task/getTasks');
       final modifiedFilter = filter.map((key, value) {
         if (value is DateTime) {
           return MapEntry(key, value.toIso8601String().substring(0, 10));
@@ -72,24 +91,20 @@ class TaskService {
         return MapEntry(key, value);
       });
 
-      print(modifiedFilter);
-
       print('Sending request to $baseUrl/task/getTasksByFilter');
       final response = await http.post(
         Uri.parse('$baseUrl/task/getTasksByFilter'),
         headers: {
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer $userToken',
           'Content-Type': 'application/json',
         },
         body: jsonEncode(modifiedFilter),
       );
       print('Response status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         if (data['data'] != null) {
-          // print(data['data']);
           return data['data'];
         } else {
           return [];
@@ -105,11 +120,14 @@ class TaskService {
 
   Future<Map<String, dynamic>> deleteTask(String taskName) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       print('Sending request to $baseUrl/task/deleteTask');
+
       final response = await http.delete(
         Uri.parse('$baseUrl/task/deleteTask'),
         headers: {
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer $userToken',
           'Content-Type': 'application/json',
         },
         body: jsonEncode({
@@ -133,11 +151,13 @@ class TaskService {
   Future<Map<String, dynamic>> updateTask(
       Map<String, dynamic> updatedData) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       print('Sending request to $baseUrl/task/updateTask');
       final response = await http.patch(
         Uri.parse('$baseUrl/task/updateTask'),
         headers: {
-          'Authorization': 'Bearer $token',
+          'Authorization': 'Bearer $userToken',
           'Content-Type': 'application/json',
         },
         body: jsonEncode(updatedData),

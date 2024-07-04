@@ -4,8 +4,10 @@ import '../../styles/colors/colors.dart';
 
 class DailySchedule extends StatefulWidget {
   final ValueChanged<int> onDateSelected;
+  final int? initialDate; // New property to receive initial date
 
-  const DailySchedule({required this.onDateSelected, Key? key})
+  const DailySchedule(
+      {required this.onDateSelected, this.initialDate, Key? key})
       : super(key: key);
 
   @override
@@ -13,7 +15,14 @@ class DailySchedule extends StatefulWidget {
 }
 
 class _DailyScheduleState extends State<DailySchedule> {
-  late int _selectedDateAppBar = DateTime.now().day;
+  late int _selectedDateAppBar;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize selected date with initialDate if provided, otherwise use today's date
+    _selectedDateAppBar = widget.initialDate ?? DateTime.now().day;
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -44,7 +44,6 @@ class UpdateTask extends StatelessWidget {
           title: const Text(
             "Update Task",
             style: TextStyle(
-              fontFamily: 'Lato',
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),

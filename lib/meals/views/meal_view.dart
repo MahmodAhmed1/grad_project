@@ -56,14 +56,18 @@ class _MealViewState extends State<MealView> {
                 children: [
                   buildBanner(totalMealsCalories, totalNeedCalories),
                   Expanded(
-                    child: ListView(
-                      physics: AlwaysScrollableScrollPhysics(),
-                      children: [
-                        buildMealSection('Breakfast'),
-                        buildMealSection('Lunch'),
-                        buildMealSection('Dinner'),
-                        buildMealSection('Snack'),
-                      ],
+                    child: Padding(
+                      padding: const EdgeInsets.all(
+                          10.0), // Adjust the padding as needed
+                      child: ListView(
+                        physics: AlwaysScrollableScrollPhysics(),
+                        children: [
+                          buildMealSection('Breakfast'),
+                          buildMealSection('Lunch'),
+                          buildMealSection('Dinner'),
+                          buildMealSection('Snack'),
+                        ],
+                      ),
                     ),
                   ),
                   buildStaticPart(), // Add the static part here
@@ -74,7 +78,10 @@ class _MealViewState extends State<MealView> {
   }
 
   Widget buildBanner(int totalMealsCalories, int totalNeedCalories) {
-    double percentage = totalMealsCalories / totalNeedCalories;
+    double percentage =
+        (totalMealsCalories / totalNeedCalories).clamp(0.0, 1.0);
+    int caloriesLeft = totalNeedCalories - totalMealsCalories;
+    String messageText = caloriesLeft <= 0 ? 'Goal Reached!' : 'Keep Going!';
 
     return Container(
       margin: EdgeInsets.all(16.0),
@@ -119,7 +126,7 @@ class _MealViewState extends State<MealView> {
                         ),
                       ),
                       Text(
-                        'Keep Going!',
+                        messageText,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 14,
@@ -131,12 +138,24 @@ class _MealViewState extends State<MealView> {
                     radius: 50.0,
                     lineWidth: 10.0,
                     percent: percentage,
-                    center: Text(
-                      '  ${(totalNeedCalories - totalMealsCalories)}\nCal left',
-                      style: TextStyle(
-                        color: Colors.orange,
-                        fontSize: 12,
-                      ),
+                    center: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          caloriesLeft <= 0 ? 'Nothing' : '$caloriesLeft',
+                          style: TextStyle(
+                            color: Colors.orange,
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          'Cal left',
+                          style: TextStyle(
+                            color: Colors.orange,
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                     ),
                     progressColor: Colors.orange,
                     backgroundColor: Colors.white,
@@ -411,7 +430,7 @@ class _MealViewState extends State<MealView> {
                         }
                       },
                 child: Opacity(
-                  opacity: taken ? 0.5 : 1,
+                  opacity: taken ? 0.3 : 1,
                   child: Container(
                     margin: EdgeInsets.fromLTRB(0, 0, 3.5, 0),
                     width: 22.5,

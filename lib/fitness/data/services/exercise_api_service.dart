@@ -1,14 +1,25 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:pyramend/fitness/data/models/exercise_model.dart';
+import 'package:pyramend/shared/componenets/constants/constants.dart';
 
 class ExerciseService {
-  static const String baseUrl = 'http://10.0.2.2:3000/fitness/exercises';
+  // http://10.0.2.2:3000/api
+  // static String baseUrl = APIurlLocal;
+
+  static String baseUrl = '$APIurlLocal/exercises';
+  static String userToken = token;
 
   // Function to fetch all exercises
   static Future<List<Exercise>> getAllExercises() async {
     try {
-      final response = await http.get(Uri.parse(baseUrl));
+      final response = await http.get(
+        Uri.parse(baseUrl),
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
+      );
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
         List<Exercise> exercises =
@@ -26,7 +37,15 @@ class ExerciseService {
   static Future<List<Exercise>> fetchExercisesByBodyPart(
       String bodyPart) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/fetch/$bodyPart'));
+      print('Sending request to $baseUrl/workouts/$bodyPart');
+      final response = await http.get(
+        Uri.parse('$baseUrl/fetch/$bodyPart'),
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
+      );
+      print('Response status code: ${response.statusCode}');
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = json.decode(response.body);
         final List<dynamic> data = responseBody['exercises'];
@@ -44,7 +63,13 @@ class ExerciseService {
   // Function to fetch exercise by ID
   static Future<Exercise> fetchExerciseById(String id) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/$id'));
+      final response = await http.get(
+        Uri.parse('$baseUrl/$id'),
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
+      );
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = json.decode(response.body);
         final Exercise exercise = Exercise.fromJson(responseBody['exercise']);
@@ -61,8 +86,13 @@ class ExerciseService {
   static Future<Exercise> createExercise(Exercise exercise) async {
     try {
       final response = await http.post(
-        Uri.parse(baseUrl),
-        headers: {'Content-Type': 'application/json'},
+        Uri.parse(
+          baseUrl,
+        ),
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
         body: json.encode(exercise.toJson()),
       );
 
@@ -84,7 +114,10 @@ class ExerciseService {
     try {
       final response = await http.put(
         Uri.parse('$baseUrl/$id'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
         body: json.encode(updatedExercise.toJson()),
       );
 
@@ -103,7 +136,13 @@ class ExerciseService {
   // Function to delete exercise by ID
   static Future<void> deleteExercise(String id) async {
     try {
-      final response = await http.delete(Uri.parse('$baseUrl/$id'));
+      final response = await http.delete(
+        Uri.parse('$baseUrl/$id'),
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
+      );
       if (response.statusCode != 204) {
         throw Exception('Failed to delete exercise');
       }
@@ -115,7 +154,13 @@ class ExerciseService {
   // Function to get exercise weight by ID
   static Future<int> getExerciseWeight(String id) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/$id/weight'));
+      final response = await http.get(
+        Uri.parse('$baseUrl/$id/weight'),
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
+      );
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = json.decode(response.body);
         final int weight = responseBody['weight'];
@@ -152,7 +197,13 @@ class ExerciseService {
   // Function to get exercise repetitions by ID
   static Future<int> getExerciseRepetitions(String id) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/$id/repeats'));
+      final response = await http.get(
+        Uri.parse('$baseUrl/$id/repeats'),
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
+      );
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = json.decode(response.body);
         final int repetitions = responseBody['repetitions'];
@@ -170,7 +221,10 @@ class ExerciseService {
     try {
       final response = await http.put(
         Uri.parse('$baseUrl/$id/repeats'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
         body: json.encode({'repeats': repetitions}),
       );
 
@@ -189,7 +243,13 @@ class ExerciseService {
   // Function to get exercise sets by ID
   static Future<int> getExerciseSets(String id) async {
     try {
-      final response = await http.get(Uri.parse('$baseUrl/$id/sets'));
+      final response = await http.get(
+        Uri.parse('$baseUrl/$id/sets'),
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
+      );
       if (response.statusCode == 200) {
         final Map<String, dynamic> responseBody = json.decode(response.body);
         final int sets = responseBody['sets'];
@@ -207,7 +267,10 @@ class ExerciseService {
     try {
       final response = await http.put(
         Uri.parse('$baseUrl/$id/sets'),
-        headers: {'Content-Type': 'application/json'},
+        headers: {
+          'Authorization': 'Bearer $userToken',
+          'Content-Type': 'application/json',
+        },
         body: json.encode({'sets': sets}),
       );
 

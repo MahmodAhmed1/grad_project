@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pyramend/authentication/views/provider.dart';
 import 'package:pyramend/task_management/api/tasks_api.dart';
 import 'package:pyramend/task_management/models/task_model.dart';
 import 'package:pyramend/task_management/viewModel/cubit/task_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
-
-// import 'package:sqflite/sqflite.dart';
+import 'package:provider/provider.dart';
 
 class ButtonInfo {
   final Color color;
@@ -130,14 +130,13 @@ class TaskCubit extends Cubit<TaskStates> {
     try {
       final tasks = await TaskService().fetchTasksByFilter(filter);
       final DateTime todaySameTime = DateTime.now();
+      fetchTasksToday();
 
       // Function to parse time in 'hh:mm a' format
       DateTime? parseTime(String time) {
         try {
-          print(time);
           final DateFormat format = DateFormat('h:mm a');
           final parsedTime = format.parse(time);
-          print(parsedTime); // This will print the parsed DateTime object
           return parsedTime;
         } catch (e) {
           print('Error parsing time: $e');

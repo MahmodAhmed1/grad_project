@@ -5,7 +5,7 @@ import 'package:pyramend/task_management/viewModel/cubit/task_cubit.dart';
 class DurationField extends StatelessWidget {
   final TextEditingController controller;
 
-  const DurationField({required this.controller});
+  const DurationField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

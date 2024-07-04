@@ -3,6 +3,8 @@ import 'package:pyramend/fitness/data/models/exercise_model.dart';
 import 'package:pyramend/fitness/views/exercises_view.dart';
 import 'package:pyramend/shared/componenets/common_widgets/buttons.dart';
 import 'package:pyramend/shared/componenets/constants/constants.dart';
+import 'package:pyramend/shared/componenets/constants/enums.dart';
+
 import 'package:pyramend/shared/styles/colors/colors.dart';
 import '../data/services/exercise_api_service.dart';
 
@@ -25,10 +27,10 @@ class _WorkoutsViewState extends State<WorkoutsView> {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
-    // final dateID =
-    //     widget.dateID ?? 0; // Provide a default value if dateID is null
+    final isPortrait = media.height > media.width;
 
     return Scaffold(
+      backgroundColor: Ucolor.white,
       appBar: AppBar(
         title: Text(
           'Workouts',
@@ -64,13 +66,13 @@ class _WorkoutsViewState extends State<WorkoutsView> {
         actions: [],
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             showWarning
                 ? _buildWarningContainer()
-                : SizedBox(), // Show warning container if showWarning is true
+                : const SizedBox(), // Show warning container if showWarning is true
             Text(
               "What do you want to train",
               style: TextStyle(
@@ -78,27 +80,27 @@ class _WorkoutsViewState extends State<WorkoutsView> {
                 fontSize: mediumFontSize,
               ),
             ),
-            SizedBox(height: 20),
-            _buildWorkoutContainer(
-                context, 'chest', 'assets/imgs/fitness/male_chest.jpeg', media),
-            SizedBox(height: 10),
+            const SizedBox(height: 20),
+            _buildWorkoutContainer(context, 'chest',
+                'assets/imgs/fitness/male_chest.jpeg', media, isPortrait),
+            const SizedBox(height: 10),
             _buildWorkoutContainer(context, 'lower Arm',
-                'assets/imgs/fitness/female_arm.jpeg', media),
-            SizedBox(height: 10),
+                'assets/imgs/fitness/female_arm.jpeg', media, isPortrait),
+            const SizedBox(height: 10),
             _buildWorkoutContainer(context, 'upper Arm',
-                'assets/imgs/fitness/female_arm.jpeg', media),
-            SizedBox(height: 10),
+                'assets/imgs/fitness/female_arm.jpeg', media, isPortrait),
+            const SizedBox(height: 10),
             _buildWorkoutContainer(context, 'cardio',
-                'assets/imgs/fitness/female_cardio.jpeg', media),
-            SizedBox(height: 10),
-            _buildWorkoutContainer(
-                context, 'back', 'assets/imgs/fitness/male_back.jpeg', media),
-            SizedBox(height: 10),
+                'assets/imgs/fitness/female_cardio.jpeg', media, isPortrait),
+            const SizedBox(height: 10),
+            _buildWorkoutContainer(context, 'back',
+                'assets/imgs/fitness/male_back.jpeg', media, isPortrait),
+            const SizedBox(height: 10),
             _buildWorkoutContainer(context, 'lower Legs',
-                'assets/imgs/fitness/male_leg.jpeg', media),
-            SizedBox(height: 10),
+                'assets/imgs/fitness/male_leg.jpeg', media, isPortrait),
+            const SizedBox(height: 10),
             _buildWorkoutContainer(context, 'upper Legs',
-                'assets/imgs/fitness/male_leg.jpeg', media),
+                'assets/imgs/fitness/male_leg.jpeg', media, isPortrait),
           ],
         ),
       ),
@@ -108,8 +110,8 @@ class _WorkoutsViewState extends State<WorkoutsView> {
   Widget _buildWarningContainer() {
     return Container(
       width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(
           bottom: 10), // Add margin to separate from other widgets
       decoration: BoxDecoration(
         color: Colors.red.withOpacity(0.2),
@@ -117,9 +119,9 @@ class _WorkoutsViewState extends State<WorkoutsView> {
       ),
       child: Row(
         children: [
-          Icon(Icons.warning, color: Colors.red),
-          SizedBox(width: 10),
-          Expanded(
+          const Icon(Icons.warning, color: Colors.red),
+          const SizedBox(width: 10),
+          const Expanded(
             child: Text(
               "Warning: These exercises should be performed by expert users or under the supervision of a fitness coach.",
               style: TextStyle(
@@ -135,10 +137,10 @@ class _WorkoutsViewState extends State<WorkoutsView> {
                     false; // Set showWarning to false to hide the warning container
               });
             },
-            style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
-            ),
+            style: const ButtonStyle(
+                // backgroundColor: WidgetStateProperty.all<Color>(Colors.white),
+                // foregroundColor: WidgetStateProperty.all<Color>(Colors.black),
+                ),
             child: Text(
               'Remove',
               style: TextStyle(
@@ -155,11 +157,12 @@ class _WorkoutsViewState extends State<WorkoutsView> {
     String exerciseName,
     String img,
     Size media,
+    bool isPortrait,
   ) {
     return Container(
-      padding: EdgeInsets.all(10),
-      width: media.width * 0.90,
-      height: media.height * 0.18,
+      padding: const EdgeInsets.all(10),
+      width: isPortrait ? media.width * 0.90 : media.width * 0.80,
+      height: isPortrait ? media.height * 0.18 : media.height * 0.15,
       decoration: BoxDecoration(
         gradient: Ucolor.fitnessGradient,
         borderRadius: BorderRadius.circular(20),
@@ -168,7 +171,7 @@ class _WorkoutsViewState extends State<WorkoutsView> {
             color: Colors.black.withOpacity(0.2),
             spreadRadius: 7,
             blurRadius: 6,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -181,12 +184,15 @@ class _WorkoutsViewState extends State<WorkoutsView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '$exerciseName Exercises',
-                  style: TextStyle(color: Ucolor.white),
+                  capitalize('$exerciseName Exercises'),
+                  style: TextStyle(
+                      color: Ucolor.lightGray,
+                      fontSize: mediumFontSize,
+                      fontWeight: FontWeight.w600),
                 ),
-                Text('No. of exercises | Total time',
-                    style: TextStyle(color: Ucolor.white)),
-                SizedBox(height: 10),
+                // Text('No. of exercises | Total time',
+                //     style: TextStyle(color: Ucolor.white)),
+                // SizedBox(height: 10),
                 RoundedButton(
                   title: 'View More',
                   titleSize: smallMediumFontSize,
@@ -216,17 +222,17 @@ class _WorkoutsViewState extends State<WorkoutsView> {
                     }
                   },
                   height: media.height * 0.05,
-                  width: media.width * 0.2,
-                  backgroundColor: Ucolor.white,
+                  width: media.width * 0.3,
+                  backgroundColor: Ucolor.lightGray,
                   textColor: Ucolor.DarkGray,
                 ),
               ],
             ),
           ),
           Container(
-            width: 130,
-            height: 130,
-            margin: EdgeInsets.all(10),
+            width: isPortrait ? 130 : 110,
+            height: isPortrait ? 130 : 110,
+            margin: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               gradient: Ucolor.fitnessGradient,
               shape: BoxShape.circle,

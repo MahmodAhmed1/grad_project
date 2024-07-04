@@ -5,7 +5,8 @@ class UpdateButton extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final VoidCallback onPressed;
 
-  const UpdateButton({required this.formKey, required this.onPressed});
+  const UpdateButton(
+      {super.key, required this.formKey, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

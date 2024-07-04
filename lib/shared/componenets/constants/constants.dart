@@ -29,6 +29,8 @@ double buttonHeight = 75;
 double minButtonWidth = double.maxFinite;
 String APIurl = 'https://pyramend.onrender.com/api';
 String APIurlLocal = 'http://10.0.2.2:3000/api';
+String token =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTdjYWNjZTQyYjlkMDA0NDdmMzNmMyIsImlhdCI6MTcxOTE4ODIxMCwiZXhwIjoxNzM2NDY4MjEwfQ.rIPiocJB77rmAnw4uyi_u_hG3BLCGc7DSdUiB_Kty1U';
 
 double smallFotSize = 12;
 double mediumFotSize = 18;

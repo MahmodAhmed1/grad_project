@@ -51,20 +51,29 @@ class _LogInState extends State<LogIn> {
           final user = responseData['data']['user'];
           print('User logged in successfully!');
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Logged in successfully!'),
             ),
           );
 
           // Set the token in the UserProvider
-          Provider.of<UserProvider>(context, listen: false).token = responseData['token'];
-          Provider.of<UserProvider>(context, listen: false).userName = responseData['data']['name'];
+          Provider.of<UserProvider>(context, listen: false).token =
+              responseData['token'];
+          Provider.of<UserProvider>(context, listen: false).userName =
+              responseData['data']['name'];
 
           // Save login state in SharedPreferences
           final prefs = await SharedPreferences.getInstance();
           await prefs.setString('token', responseData['token']);
           await prefs.setString('userName', responseData['data']['name']);
-
+          await prefs.setString('gender', responseData['data']['gender']);
+          await prefs.setString('goal', responseData['data']['goal']);
+          await prefs.setString(
+              'activityLevel', responseData['data']['activityLevel']);
+          await prefs.setString('email', responseData['data']['email']);
+          await prefs.setInt('age', responseData['data']['age']);
+          await prefs.setInt('height', responseData['data']['height']);
+          await prefs.setInt('weight', responseData['data']['weight']);
           // Navigate to HomePage
           Navigator.pushReplacement(
             context,
@@ -98,8 +107,9 @@ class _LogInState extends State<LogIn> {
 
       // Show an error message to the user
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('An error occurred while logging in. Please try again later.'),
+        const SnackBar(
+          content: Text(
+              'An error occurred while logging in. Please try again later.'),
         ),
       );
     }
@@ -118,7 +128,8 @@ class _LogInState extends State<LogIn> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: MediaQuery.of(context).size.width * 0.04),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.04),
                       Text(
                         'Hey there,',
                         style: TextStyle(
@@ -133,22 +144,25 @@ class _LogInState extends State<LogIn> {
                           fontSize: largeFotSize,
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.width * 0.04),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.04),
                       // Wrap input fields in a ListView for scrolling
                       ListView(
                         shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         children: [
                           RoundedTextField(
                             controller: emailController,
                             keyboardType: TextInputType.emailAddress,
-                            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
                             hintText: 'Email',
                             prefixIconPath: 'assets/icons/email_icon.png',
                           ),
                           RoundedTextField(
                             controller: passwordController,
-                            margin: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
                             hintText: 'Password',
                             prefixIconPath: 'assets/icons/password_icon.png',
                             obscureText: true,
@@ -157,8 +171,8 @@ class _LogInState extends State<LogIn> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                margin: EdgeInsets.fromLTRB(0, 0, 1.2, 0),
-                                child: Text(
+                                margin: const EdgeInsets.fromLTRB(0, 0, 1.2, 0),
+                                child: const Text(
                                   'Forgot your password?',
                                   style: TextStyle(
                                     fontFamily: 'Poppins',
@@ -188,7 +202,7 @@ class _LogInState extends State<LogIn> {
                     color: Colors.grey.withOpacity(0.2),
                     spreadRadius: 3,
                     blurRadius: 7,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
                 gradient: LinearGradient(
@@ -201,7 +215,7 @@ class _LogInState extends State<LogIn> {
                   stops: [0.0, 0.1], // Adjust stops as needed
                 ),
               ),
-              padding: EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 20),
               child: Column(
                 children: [
                   // Adjust size as needed
@@ -213,9 +227,10 @@ class _LogInState extends State<LogIn> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset('assets/imgs/login.png', height: 20, width: 19),
+                        Image.asset('assets/imgs/login.png',
+                            height: 20, width: 19),
                         // Adjust size as needed
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         // Adjust spacing as needed
                         Text(
                           'Log In',
@@ -236,7 +251,7 @@ class _LogInState extends State<LogIn> {
                         'Don\'t have an account?',
                         style: TextStyle(color: Colors.grey[700]),
                       ),
-                      SizedBox(width: 4),
+                      const SizedBox(width: 4),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(

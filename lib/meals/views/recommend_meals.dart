@@ -186,67 +186,50 @@ class _RecommendMealsPageState extends State<RecommendMealsPage> {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 21, 0),
-                  child: Opacity(
-                    opacity: 1,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        gradient: LinearGradient(
-                          colors: [Color(0xFFF4F696), Color(0xFFE6877A)],
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                        ),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: Image.asset(
-                            'assets/imgs/all_food.png',
-                            // Replace with your placeholder image path
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+            Container(
+              width: 60,
+              height: 60,
+              margin: EdgeInsets.only(right: 12.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                gradient: LinearGradient(
+                  colors: [Color(0xFFF4F696), Color(0xFFE6877A)],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.asset(
+                  'assets/imgs/all_food.png',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    meal['name'] ?? '',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      height: 1.5,
+                      color: Color(0xFF1D1617),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 9, 0, 9),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.fromLTRB(0, 0, 0, 3),
-                        child: Text(
-                          meal['name'] ?? '',
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w700,
-                            fontSize: 14,
-                            height: 1.5,
-                            color: Color(0xFF1D1617),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-            // Add an arrow icon for navigation
-            Icon(Icons.arrow_circle_right_outlined, color: Colors.grey,),
+            Icon(Icons.arrow_circle_right_outlined, color: Colors.grey),
           ],
         ),
       ),

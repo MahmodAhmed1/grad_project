@@ -97,8 +97,6 @@ class WaterCubit extends Cubit<WaterStates> {
       recommendedWater = waterIntakeData['target'];
       waterTarget = waterIntakeData['inputTarget'];
       userName = waterIntakeData['userName'];
-      print(userName);
-
       remaining = waterTarget - waterConsume;
       remaining < 0 ? remaining = 0 : remaining;
       // x = waterConsume;
@@ -126,8 +124,6 @@ class WaterCubit extends Cubit<WaterStates> {
   Future<void> addWaterConsumption(int amount) async {
     emit(AppLoadingState());
     try {
-      print(amount);
-      print(waterConsume + amount);
       if (amount < 0 && waterConsume + amount < 0) {
         amount = -waterConsume;
       }
@@ -137,7 +133,6 @@ class WaterCubit extends Cubit<WaterStates> {
       remaining = waterTarget - waterConsume;
       remaining < 0 ? remaining = 0 : remaining;
       String message = response['message'];
-      print(response);
       emit(AppWaterConsumptionUpdatedState(message, remaining));
     } catch (e) {
       emit(AppErrorState());

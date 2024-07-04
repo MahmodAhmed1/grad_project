@@ -28,18 +28,17 @@ class _HealthViewState extends State<HealthView> {
 
   Future<void> _refreshMedicine() async {
     final updatedMedicineFuture =
-    Provider.of<UserProvider>(context, listen: false).getMedicine();
+        Provider.of<UserProvider>(context, listen: false).getMedicine();
     setState(() {
       medicineFuture = updatedMedicineFuture;
     });
-
   }
 
   Future<void> _showMissedMedicines(BuildContext context) async {
     try {
       final missedMedicines =
-      await Provider.of<UserProvider>(context, listen: false)
-          .getMissedMedicines();
+          await Provider.of<UserProvider>(context, listen: false)
+              .getMissedMedicines();
       int totalMissedMedicines = missedMedicines['totalMissedMedicines'];
       List<String> medNames = List<String>.from(missedMedicines['medNames']);
 
@@ -49,13 +48,12 @@ class _HealthViewState extends State<HealthView> {
 
       if (totalMissedMedicines == 0) {
         message =
-        'There are no missed medicines. You are on the right track! Keep going!';
+            'There are no missed medicines. You are on the right track! Keep going!';
       } else {
-        message =
-        'Here are the missed medicines for today:\n';
+        message = 'Here are the missed medicines for today:\n';
         message2 = '${medNames.join(", ")}.';
         message3 =
-        '\nYou should contact your doctor urgently to recover these medicines.';
+            '\nYou should contact your doctor urgently to recover these medicines.';
       }
 
       showDialog(
@@ -107,10 +105,10 @@ class _HealthViewState extends State<HealthView> {
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
-                child: Text('Close',
-                  style: TextStyle(
-                      color: Color(0xFF1BD15D)
-                  ),),
+                child: Text(
+                  'Close',
+                  style: TextStyle(color: Color(0xFF1BD15D)),
+                ),
               ),
             ],
           );
@@ -128,16 +126,17 @@ class _HealthViewState extends State<HealthView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Medicine Schedule',style: TextStyle(
-          fontFamily: 'Poppins',
-          fontWeight: FontWeight.w700,
-          fontSize: 16,
-          height: 1.5,
-
-        ),),
+        title: Text(
+          'Medicine Schedule',
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            height: 1.5,
+          ),
+        ),
       ),
       body: Container(
-
         color: Colors.white,
         child: Padding(
           padding: EdgeInsets.fromLTRB(18, 35, 16, 24),
@@ -210,16 +209,16 @@ class _HealthViewState extends State<HealthView> {
                                       width: double.infinity,
                                       child: Container(
                                         padding:
-                                        EdgeInsets.fromLTRB(24, 53, 0, 53),
+                                            EdgeInsets.fromLTRB(24, 53, 0, 53),
                                         child: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              margin:
-                                              EdgeInsets.fromLTRB(0, 0, 0, 2),
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0, 0, 0, 2),
                                               child: Align(
                                                 alignment: Alignment.topLeft,
                                                 child: Text(
@@ -229,7 +228,7 @@ class _HealthViewState extends State<HealthView> {
                                                     fontWeight: FontWeight.w800,
                                                     fontSize: 20,
                                                     decoration:
-                                                    TextDecoration.none,
+                                                        TextDecoration.none,
                                                     height: 1.3,
                                                     color: Color(0xFF0A0909),
                                                   ),
@@ -245,7 +244,7 @@ class _HealthViewState extends State<HealthView> {
                                                   style: TextStyle(
                                                     fontFamily: 'Poppins',
                                                     decoration:
-                                                    TextDecoration.none,
+                                                        TextDecoration.none,
                                                     fontWeight: FontWeight.w400,
                                                     fontSize: 15,
                                                     height: 2.2,
@@ -263,7 +262,8 @@ class _HealthViewState extends State<HealthView> {
                                     top: 35,
                                     right: -40,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Container(
                                           decoration: BoxDecoration(
@@ -306,282 +306,291 @@ class _HealthViewState extends State<HealthView> {
                             child: Scaffold(
                               body: snapshot.data?.containsKey('data') == true
                                   ? AnimatedList(
-                                key: _listKey,
-                                initialItemCount: data.length,
-                                itemBuilder: (context, index, animation) {
-                                  // Get the medName for the current item
-                                  String medName = data[index]['medName'];
-                                  String hour =
-                                  data[index]['NotificationHour'];
-                                  dynamic dose = data[index]['Dose'];
-                                  dynamic howLong = data[index]['howLong'];
-                                  String pillsDuration =
-                                  data[index]['pillsDuration'];
-                                  bool taken = data[index]['taken'];
+                                      key: _listKey,
+                                      initialItemCount: data.length,
+                                      itemBuilder: (context, index, animation) {
+                                        // Get the medName for the current item
+                                        String medName = data[index]['medName'];
+                                        String hour =
+                                            data[index]['NotificationHour'];
+                                        dynamic dose = data[index]['Dose'];
+                                        dynamic howLong =
+                                            data[index]['howLong'];
+                                        String pillsDuration =
+                                            data[index]['pillsDuration'];
+                                        bool taken = data[index]['taken'];
 
-                                  // Determine the status text based on the 'taken' value
-                                  String statusText =
-                                  taken ? 'Completed' : pillsDuration;
+                                        // Determine the status text based on the 'taken' value
+                                        String statusText =
+                                            taken ? 'Completed' : pillsDuration;
 
-                                  // Return a rectangle with the medName
-                                  return SizeTransition(
-                                    sizeFactor: animation,
-                                    child: Material(
-                                      // Ensure there is a Material widget ancestor
-                                      child: Container(
-                                        margin: EdgeInsets.fromLTRB(
-                                            0, 0, 0, 12),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xFFF8F8F6),
-                                          borderRadius:
-                                          BorderRadius.circular(24),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.grey
-                                                  .withOpacity(0.5),
-                                              // Shadow color
-                                              spreadRadius: 1,
-                                              // Spread radius
-                                              blurRadius: 7,
-                                              // Blur radius
-                                              offset: Offset(-2,
-                                                  5), // Offset (horizontal, vertical)
-                                            ),
-                                          ],
-                                        ),
-                                        child: Container(
-                                          padding: EdgeInsets.fromLTRB(
-                                              30, 14, 12.3, 15),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceBetween,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                CrossAxisAlignment
-                                                    .start,
-                                                children: [
-                                                  Container(
-                                                    margin:
-                                                    EdgeInsets.fromLTRB(
-                                                        0, 14, 18, 13),
-                                                    width: 20,
-                                                    height: 20,
-                                                    child: Image.asset(
-                                                        'assets/imgs/pills.png'),
-                                                  ),
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .start,
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      Align(
-                                                        alignment: Alignment
-                                                            .topLeft,
-                                                        child: Text(
-                                                          '$medName | Dose: $dose',
-                                                          style: TextStyle(
-                                                            decoration:
-                                                            TextDecoration
-                                                                .none,
-                                                            fontFamily:
-                                                            'Poppins',
-                                                            fontWeight:
-                                                            FontWeight
-                                                                .w500,
-                                                            fontSize: 15,
-                                                            color: Color(
-                                                                0xFF0A0909),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .start,
-                                                        crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          Text(
-                                                            '$hour | $statusText | $howLong days',
-                                                            style:
-                                                            TextStyle(
-                                                              decoration:
-                                                              TextDecoration
-                                                                  .none,
-                                                              fontFamily:
-                                                              'Poppins',
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500,
-                                                              fontSize: 13,
-                                                              color: Color(
-                                                                  0xFF9B9B9B),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(width: 10),
-                                                    ],
+                                        // Return a rectangle with the medName
+                                        return SizeTransition(
+                                          sizeFactor: animation,
+                                          child: Material(
+                                            // Ensure there is a Material widget ancestor
+                                            child: Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  0, 0, 0, 12),
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFFF8F8F6),
+                                                borderRadius:
+                                                    BorderRadius.circular(24),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey
+                                                        .withOpacity(0.5),
+                                                    // Shadow color
+                                                    spreadRadius: 1,
+                                                    // Spread radius
+                                                    blurRadius: 7,
+                                                    // Blur radius
+                                                    offset: Offset(-2,
+                                                        5), // Offset (horizontal, vertical)
                                                   ),
                                                 ],
                                               ),
-                                              Container(
-                                                margin: EdgeInsets.fromLTRB(
-                                                    0, 12.8, 0, 7.7),
-                                                child: SizedBox(
-                                                  width: 48,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .start,
-                                                    crossAxisAlignment:
-                                                    CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      Flexible(
-                                                        child:
-                                                        GestureDetector(
-                                                          onTap: statusText !=
-                                                              'Completed'
-                                                              ? () async {
-                                                            try {
-                                                              await Provider.of<UserProvider>(context, listen: false).updateMedicine(
-                                                                  context,
-                                                                  medName);
-                                                              setState(
-                                                                      () {
-                                                                    medicineFuture =
-                                                                        Provider.of<UserProvider>(context, listen: false).getMedicine();
-                                                                  });
-                                                            } catch (e) {
-                                                              // Handle the error, e.g. show an error message
-                                                            }
-                                                          }
-                                                              : null,
-                                                          child: Opacity(
-                                                            opacity:
-                                                            statusText ==
-                                                                'Completed'
-                                                                ? 0.5
-                                                                : 1,
-                                                            child:
-                                                            Container(
-                                                              margin: EdgeInsets
-                                                                  .fromLTRB(
-                                                                  0,
-                                                                  0,
-                                                                  3.5,
-                                                                  0),
-                                                              width: 22.5,
-                                                              height: 22.5,
-                                                              child: Image
-                                                                  .asset(
-                                                                  'assets/imgs/checked.png'),
-                                                            ),
-                                                          ),
+                                              child: Container(
+                                                padding: EdgeInsets.fromLTRB(
+                                                    30, 14, 12.3, 15),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Container(
+                                                          margin: EdgeInsets
+                                                              .fromLTRB(0, 14,
+                                                                  18, 13),
+                                                          width: 20,
+                                                          height: 20,
+                                                          child: Image.asset(
+                                                              'assets/imgs/pills.png'),
                                                         ),
-                                                      ),
-                                                      Flexible(
-                                                        child:
-                                                        GestureDetector(
-                                                          onTap: () async {
-                                                            try {
-                                                              _listKey
-                                                                  .currentState
-                                                                  ?.removeItem(
-                                                                index,
-                                                                    (context,
-                                                                    animation) =>
-                                                                    SizeTransition(
-                                                                      sizeFactor:
-                                                                      animation,
-                                                                      child:
+                                                        Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Align(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .topLeft,
+                                                              child: Text(
+                                                                '$medName | Dose: $dose',
+                                                                style:
+                                                                    TextStyle(
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .none,
+                                                                  fontFamily:
+                                                                      'Poppins',
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontSize: 15,
+                                                                  color: Color(
+                                                                      0xFF0A0909),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .start,
+                                                              children: [
+                                                                Text(
+                                                                  '$hour | $statusText | $howLong days',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    decoration:
+                                                                        TextDecoration
+                                                                            .none,
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontSize:
+                                                                        13,
+                                                                    color: Color(
+                                                                        0xFF9B9B9B),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(width: 10),
+                                                          ],
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Container(
+                                                      margin:
+                                                          EdgeInsets.fromLTRB(
+                                                              0, 12.8, 0, 7.7),
+                                                      child: SizedBox(
+                                                        width: 48,
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Flexible(
+                                                              child:
+                                                                  GestureDetector(
+                                                                onTap: statusText !=
+                                                                        'Completed'
+                                                                    ? () async {
+                                                                        try {
+                                                                          await Provider.of<UserProvider>(context, listen: false).updateMedicine(
+                                                                              context,
+                                                                              medName);
+                                                                          setState(
+                                                                              () {
+                                                                            medicineFuture =
+                                                                                Provider.of<UserProvider>(context, listen: false).getMedicine();
+                                                                          });
+                                                                        } catch (e) {
+                                                                          // Handle the error, e.g. show an error message
+                                                                        }
+                                                                      }
+                                                                    : null,
+                                                                child: Opacity(
+                                                                  opacity:
+                                                                      statusText ==
+                                                                              'Completed'
+                                                                          ? 0.3
+                                                                          : 1,
+                                                                  child:
                                                                       Container(
-                                                                        margin: EdgeInsets.fromLTRB(
+                                                                    margin: EdgeInsets
+                                                                        .fromLTRB(
                                                                             0,
                                                                             0,
-                                                                            0,
-                                                                            12),
+                                                                            3.5,
+                                                                            0),
+                                                                    width: 22.5,
+                                                                    height:
+                                                                        22.5,
+                                                                    child: Image
+                                                                        .asset(
+                                                                            'assets/imgs/checked.png'),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Flexible(
+                                                              child:
+                                                                  GestureDetector(
+                                                                onTap:
+                                                                    () async {
+                                                                  try {
+                                                                    _listKey
+                                                                        .currentState
+                                                                        ?.removeItem(
+                                                                      index,
+                                                                      (context,
+                                                                              animation) =>
+                                                                          SizeTransition(
+                                                                        sizeFactor:
+                                                                            animation,
                                                                         child:
-                                                                        Container(
-                                                                          decoration:
-                                                                          BoxDecoration(
-                                                                            color:
-                                                                            Color(0xFFF8F8F6),
-                                                                            borderRadius:
-                                                                            BorderRadius.circular(24),
+                                                                            Container(
+                                                                          margin: EdgeInsets.fromLTRB(
+                                                                              0,
+                                                                              0,
+                                                                              0,
+                                                                              12),
+                                                                          child:
+                                                                              Container(
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              color: Color(0xFFF8F8F6),
+                                                                              borderRadius: BorderRadius.circular(24),
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
+                                                                    );
+                                                                    await Provider.of<UserProvider>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .deleteMedicine(
+                                                                            context,
+                                                                            medName);
+                                                                    setState(
+                                                                        () {
+                                                                      medicineFuture = Provider.of<UserProvider>(
+                                                                              context,
+                                                                              listen: false)
+                                                                          .getMedicine();
+                                                                    });
+                                                                  } catch (e) {
+                                                                    // Handle the error, e.g. show an error message
+                                                                  }
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  margin: EdgeInsets
+                                                                      .fromLTRB(
+                                                                          0,
+                                                                          0,
+                                                                          0,
+                                                                          0),
+                                                                  child:
+                                                                      SizedBox(
+                                                                    width: 22.5,
+                                                                    height:
+                                                                        22.5,
+                                                                    child:
+                                                                        Stack(
+                                                                      children: [
+                                                                        Image.asset(
+                                                                            'assets/imgs/delete.png'),
+                                                                      ],
                                                                     ),
-                                                              );
-                                                              await Provider.of<
-                                                                  UserProvider>(
-                                                                  context,
-                                                                  listen:
-                                                                  false)
-                                                                  .deleteMedicine(
-                                                                  context,
-                                                                  medName);
-                                                              setState(() {
-                                                                medicineFuture = Provider.of<UserProvider>(
-                                                                    context,
-                                                                    listen:
-                                                                    false)
-                                                                    .getMedicine();
-                                                              });
-                                                            } catch (e) {
-                                                              // Handle the error, e.g. show an error message
-                                                            }
-                                                          },
-                                                          child: Container(
-                                                            margin: EdgeInsets
-                                                                .fromLTRB(
-                                                                0,
-                                                                0,
-                                                                0,
-                                                                0),
-                                                            child: SizedBox(
-                                                              width: 22.5,
-                                                              height: 22.5,
-                                                              child: Stack(
-                                                                children: [
-                                                                  Image.asset(
-                                                                      'assets/imgs/delete.png'),
-                                                                ],
+                                                                  ),
+                                                                ),
                                                               ),
                                                             ),
-                                                          ),
+                                                          ],
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              )
+                                        );
+                                      },
+                                    )
                                   : snapshot.data?['message'] ==
-                                  'You have not added any medicines yet.'
-                                  ? Center(
-                                  child: Text(
-                                      'You have not added any medicines yet.'))
-                                  : Center(child: Text('Loading...')),
+                                          'You have not added any medicines yet.'
+                                      ? Center(
+                                          child: Text(
+                                              'You have not added any medicines yet.'))
+                                      : Center(child: Text('Loading...')),
                             ),
                           ),
                           Container(
@@ -605,10 +614,13 @@ class _HealthViewState extends State<HealthView> {
                                     backgroundColor: Color(0xbeE42121),
                                     textColor: Ucolor.white,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        Image.asset('assets/imgs/pills_white.png',
-                                            height: 20, width: 19),
+                                        Image.asset(
+                                            'assets/imgs/pills_white.png',
+                                            height: 20,
+                                            width: 19),
                                         // Adjust size as needed
                                         SizedBox(width: 8),
                                         // Adjust spacing as needed
@@ -634,7 +646,8 @@ class _HealthViewState extends State<HealthView> {
                                     backgroundColor: Ucolor.DarkGray,
                                     textColor: Ucolor.white,
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Image.asset('assets/imgs/add_white.png',
                                             height: 30, width: 30),

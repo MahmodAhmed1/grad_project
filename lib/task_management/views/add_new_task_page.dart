@@ -51,7 +51,6 @@ class AddTask extends StatelessWidget {
           title: const Text(
             "Add Task",
             style: TextStyle(
-              fontFamily: 'Lato',
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),

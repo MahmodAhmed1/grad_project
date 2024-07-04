@@ -30,7 +30,6 @@ class StateContainer extends StatelessWidget {
                     ? 'Late 🕔'
                     : 'In Progress',
             style: const TextStyle(
-              // fontFamily: 'Playwrite México',
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontSize: 12,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:pyramend/on_boarding/on_boarding_view.dart';
 import 'package:pyramend/shared/network/bloc_observer.dart';
 import 'package:pyramend/shared/network/local/cache_helper.dart';
 import 'package:pyramend/task_management/viewModel/cubit/task_cubit.dart';
@@ -24,8 +25,9 @@ void main() {
   tz.initializeTimeZones(); // Initialize timezone data
 
   const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
-  final InitializationSettings initializationSettings = InitializationSettings(
+      AndroidInitializationSettings('@mipmap/launcher_icon');
+  final InitializationSettings initializationSettings =
+      const InitializationSettings(
     android: initializationSettingsAndroid,
   );
 
@@ -33,7 +35,7 @@ void main() {
   runApp(
     ChangeNotifierProvider(
       create: (context) => UserProvider(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -58,7 +60,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Ucolor.primaryColor1,
           fontFamily: "Poppins",
         ),
-        home: AuthCheck(),
+        home: const AuthCheck(),
         debugShowCheckedModeBanner: false,
       ),
     );
@@ -103,7 +105,7 @@ class AuthCheck extends StatelessWidget {
           if (snapshot.data == true) {
             return const HomePage(); // Navigate to HomePage if logged in
           } else {
-            return LogIn(); // Navigate to LoginPage if not logged in
+            return OnBoardingView(); // Navigate to onboarding if not logged in
           }
         }
       },

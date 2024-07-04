@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class DateField extends StatelessWidget {
   final TextEditingController controller;
 
-  const DateField({required this.controller});
+  const DateField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

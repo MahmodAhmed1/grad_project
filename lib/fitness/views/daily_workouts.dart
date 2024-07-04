@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // Import for date formatting
 import 'package:pyramend/fitness/data/models/exercise_model.dart';
 import 'package:pyramend/fitness/data/models/workout_model.dart';
 import 'package:pyramend/fitness/data/services/exercise_api_service.dart';
@@ -9,7 +10,9 @@ import 'package:pyramend/shared/componenets/common_widgets/circular_button.dart'
 import 'package:pyramend/shared/componenets/common_widgets/daily_schedule.dart';
 import 'package:pyramend/shared/componenets/constants/constants.dart';
 import 'package:pyramend/shared/componenets/constants/enums.dart';
+
 import 'package:pyramend/shared/styles/colors/colors.dart';
+// import 'package:pyramend/task_management/views/daily_schedule.dart';
 
 class DailyWorkouts extends StatefulWidget {
   @override
@@ -21,6 +24,21 @@ class _DailyWorkoutsState extends State<DailyWorkouts> {
   List<Exercise> exercises = []; // List to store fetched exercises
   Map<int, Map<String, bool>> exerciseStateByDate =
       {}; // Map to store exercise states by date
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize with today's date
+    selectedDate = _todayDateID();
+    // Fetch workouts for today's date
+    _fetchWorkoutByDate(selectedDate!);
+  }
+
+  int _todayDateID() {
+    // Get today's date in the format expected by your API or data service
+    var now = DateTime.now();
+    return int.parse(DateFormat('yyyyMMdd').format(now));
+  }
 
   void onChecked(bool? value, Exercise exercise) {
     setState(() {
@@ -76,10 +94,10 @@ class _DailyWorkoutsState extends State<DailyWorkouts> {
       body: ListView(
         children: [
           DailySchedule(
+            initialDate: selectedDate, // Pass initial selected date
             onDateSelected: (val) {
               setState(() {
                 selectedDate = val;
-                print("###id selected : $selectedDate");
                 _fetchWorkoutByDate(
                     selectedDate!); // Fetch exercises when date is selected
               });
@@ -150,9 +168,11 @@ class _DailyWorkoutsState extends State<DailyWorkouts> {
         itemBuilder: (context, index) {
           var exercise = exercises[index];
           return ExerciseItem(
+            key: ValueKey(exercise.id), // Ensure each item has a unique key
             exercise: exercise,
             onChecked: (value) => onChecked(value, exercise),
-            isMarkDone: true, // Indicating this is for marking as done
+            isMarkDone: false,
+            // Indicating this is for marking as done
           );
         },
       ),

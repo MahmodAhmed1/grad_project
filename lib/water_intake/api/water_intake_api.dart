@@ -9,14 +9,13 @@ class WaterIntakeApi {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTdjYWNjZTQyYjlkMDA0NDdmMzNmMyIsImlhdCI6MTcxOTI0MjQ3MSwiZXhwIjoxNzM2NTIyNDcxfQ.MF1FneqF4BegOcsDbZYTRyKRhRIJQ-ciCUYTFK2Cr_U';
 
   Future<Map<String, dynamic>> fetchWaterIntakeData(int inputTarget) async {
-    print("Intake Data");
     final result = inputTarget == 0
         ? {"date": DateTime.now().toIso8601String()}
         : {
             "inputTarget": inputTarget,
             "date": DateTime.now().toIso8601String()
           };
-    print(result);
+    print('Sending request to $baseUrl/water/waterTarget');
     final response = await http.post(
       Uri.parse('$baseUrl/water/waterTarget'),
       headers: {
@@ -25,6 +24,7 @@ class WaterIntakeApi {
       },
       body: jsonEncode(result),
     );
+    print(response.statusCode);
 
     if (response.statusCode == 200) {
       final jsonBody = json.decode(response.body);
@@ -38,6 +38,8 @@ class WaterIntakeApi {
   Future<Map<String, dynamic>> addWaterConsumption(int amount) async {
     final dateFormatter = DateFormat('yyyy-MM-dd');
     final formattedDate = dateFormatter.format(DateTime.now());
+
+    print('Sending request to $baseUrl/water/waterConsumption');
     final response = await http.post(
       Uri.parse('$baseUrl/water/waterConsumption'),
       headers: {
@@ -51,8 +53,6 @@ class WaterIntakeApi {
         },
       ),
     );
-
-    print("add water consumption");
     print(response.statusCode);
 
     if (response.statusCode == 200) {

@@ -4,7 +4,7 @@ import 'package:pyramend/task_management/shared/constants/icons.dart';
 class TimeField extends StatelessWidget {
   final TextEditingController controller;
 
-  const TimeField({required this.controller});
+  const TimeField({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 // import 'package:pyramend/fitness/views/fitness_view.dart';
 import 'package:pyramend/dashboard/views/home_page.dart';
 import 'package:pyramend/fitness/views/daily_workouts.dart';
+import 'package:pyramend/health/views/health.dart';
 import 'package:pyramend/meals/views/meal_view.dart';
+import 'package:pyramend/profile_page/user_profile_widget.dart';
 import 'package:pyramend/task_management/views/todo_app_home.dart';
 import '../../styles/colors/colors.dart';
 
@@ -16,10 +18,12 @@ class NavBarView extends StatefulWidget {
 class _NavBarViewState extends State<NavBarView> {
   int _selectedTab = 0;
   final tabs = [
-    HomePage(),
-    MealView(),
+    const HomePage(),
+    const MealView(),
     DailyWorkouts(),
+    const HealthView(),
     TodoAppHome(),
+    ProfilePage(),
   ];
 
   @override
@@ -54,7 +58,25 @@ class _NavBarViewState extends State<NavBarView> {
                 Image.asset('assets/icons/selected_fitness_menu_icon.png'),
           ),
           BottomNavigationBarItem(
+            icon: Container(
+              width: 24,
+              height: 24,
+              child: Image.asset('assets/imgs/pills.png'),
+            ),
+            label: '',
+            activeIcon: Image.asset('assets/icons/selected_task_menu_icon.png'),
+          ),
+          BottomNavigationBarItem(
             icon: Image.asset('assets/icons/task_menu_icon.png'),
+            label: '',
+            activeIcon: Image.asset('assets/icons/selected_task_menu_icon.png'),
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+              width: 24,
+              height: 24,
+              child: Image.asset('assets/icons/profile_menu_icon.png'),
+            ),
             label: '',
             activeIcon: Image.asset('assets/icons/selected_task_menu_icon.png'),
           ),

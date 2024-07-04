@@ -19,6 +19,7 @@ class UserProvider with ChangeNotifier {
 
   set token(String value) {
     _token = value;
+
     notifyListeners();
   }
 
@@ -31,6 +32,7 @@ class UserProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
     await prefs.setString('userName', userName);
+
     _token = token;
     _userName = userName;
     notifyListeners();
@@ -57,6 +59,7 @@ class UserProvider with ChangeNotifier {
       MaterialPageRoute(builder: (context) => LogIn()),
     );
   }
+
   bool get isLoggedIn => _token.isNotEmpty;
 
   Future<Map<String, dynamic>> getMedicine() async {
@@ -124,6 +127,8 @@ class UserProvider with ChangeNotifier {
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw Exception('Failed to update meal');
       }
+      print(response.statusCode);
+      print(response.body);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Meal updated successfully')),
@@ -153,6 +158,8 @@ class UserProvider with ChangeNotifier {
           'mealName': mealName,
         }),
       );
+      print(response.statusCode);
+      print(response.body);
 
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw Exception('Failed to delete meal');
@@ -171,6 +178,7 @@ class UserProvider with ChangeNotifier {
       throw e;
     }
   }
+
   Future<void> updateMedicine(BuildContext context, String medName) async {
     try {
       final response = await http.patch(
@@ -186,7 +194,8 @@ class UserProvider with ChangeNotifier {
           'taken': true,
         }),
       );
-
+      print(response.statusCode);
+      print(response.body);
       if (response.statusCode != 200 && response.statusCode != 201) {
         throw Exception('Failed to update medicine');
       }
@@ -309,6 +318,7 @@ class UserProvider with ChangeNotifier {
       return false;
     }
   }
+
   int totalMealsCalories = 0;
   int totalNeedCalories = 0;
 
@@ -345,7 +355,9 @@ class UserProvider with ChangeNotifier {
       throw e; // Rethrow the exception to propagate it
     }
   }
-  Future<List<Map<String, dynamic>>> recommendMeals(List<String> preferences) async {
+
+  Future<List<Map<String, dynamic>>> recommendMeals(
+      List<String> preferences) async {
     final url = Uri.parse('$APIurlLocal/meal/recommendMeals');
 
     try {
@@ -365,11 +377,13 @@ class UserProvider with ChangeNotifier {
 
         if (responseBody['success'] == true) {
           final List<dynamic> mealsJson = responseBody['data'];
-          final List<Map<String, dynamic>> recommendedMeals = mealsJson.cast<Map<String, dynamic>>();
+          final List<Map<String, dynamic>> recommendedMeals =
+              mealsJson.cast<Map<String, dynamic>>();
           print("recommended meals: $recommendedMeals");
           return recommendedMeals;
         } else {
-          throw Exception('Failed to recommend meals: ${responseBody['message']}');
+          throw Exception(
+              'Failed to recommend meals: ${responseBody['message']}');
         }
       } else {
         throw Exception('Failed to recommend meals');

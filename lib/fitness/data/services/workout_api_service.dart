@@ -1,12 +1,24 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:pyramend/fitness/data/models/workout_model.dart';
+import 'package:pyramend/shared/componenets/constants/constants.dart';
 
 class WorkoutService {
-  static const String baseUrl = 'http://10.0.2.2:3000/fitness/';
+  // static const String baseUrl = 'http://10.0.2.2:3000/api/';
+
+  static String baseUrl = APIurlLocal;
+  static String userToken = token;
 
   static Future<List<Workout>> getWorkoutsForDate(int date) async {
-    final response = await http.get(Uri.parse('$baseUrl/workouts/$date'));
+    print('Sending request to $baseUrl/workouts/$date');
+    final response = await http.get(
+      Uri.parse('$baseUrl/workouts/$date'),
+      headers: {
+        'Authorization': 'Bearer $userToken',
+        'Content-Type': 'application/json',
+      },
+    );
+    print('Response status code: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -17,7 +29,15 @@ class WorkoutService {
   }
 
   static Future<List<Workout>> getAllWorkouts() async {
-    final response = await http.get(Uri.parse('$baseUrl/workouts'));
+    print('Sending request to $baseUrl/workouts');
+    final response = await http.get(
+      Uri.parse('$baseUrl/workouts'),
+      headers: {
+        'Authorization': 'Bearer $userToken',
+        'Content-Type': 'application/json',
+      },
+    );
+    print('Response status code: ${response.statusCode}');
 
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
@@ -30,8 +50,9 @@ class WorkoutService {
   static Future<Workout> addWorkout(List<String> exercises, int date) async {
     final response = await http.post(
       Uri.parse('$baseUrl/workouts'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
+      headers: {
+        'Authorization': 'Bearer $userToken',
+        'Content-Type': 'application/json',
       },
       body: jsonEncode(<String, dynamic>{
         'exercises': exercises,

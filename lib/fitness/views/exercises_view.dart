@@ -5,6 +5,7 @@ import 'package:pyramend/fitness/views/daily_workouts.dart';
 import 'package:pyramend/fitness/views/exercise_item.dart';
 import 'package:pyramend/shared/componenets/common_widgets/buttons.dart';
 import 'package:pyramend/shared/componenets/constants/constants.dart';
+
 import 'package:pyramend/shared/styles/colors/colors.dart';
 
 class ExercisesView extends StatefulWidget {
@@ -71,6 +72,8 @@ class _ExercisesViewState extends State<ExercisesView> {
   @override
   Widget build(BuildContext context) {
     final media = MediaQuery.of(context).size;
+    // final isPortrait = media.height > media.width;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -92,25 +95,18 @@ class _ExercisesViewState extends State<ExercisesView> {
           ),
         ),
       ),
-      //backgroundColor: Ucolor.white,
       body: Column(
         children: [
+          _buildBackgroundImage(media),
           Expanded(
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildBackgroundImage(media),
-                      _buildExerciseList(),
-                    ],
-                  ),
+                  _buildExerciseList(),
                 ],
               ),
             ),
           ),
-          // Add some space between exercise list and "Done" button
           _buildAddToScheduleButton(),
         ],
       ),
@@ -128,7 +124,7 @@ class _ExercisesViewState extends State<ExercisesView> {
             gradient: Ucolor.fitnessGradient,
             image: DecorationImage(
               image: AssetImage(widget.image),
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
               onError: (exception, stackTrace) {
                 // Handle image loading errors
               },
@@ -138,7 +134,7 @@ class _ExercisesViewState extends State<ExercisesView> {
         Container(
           width: double.infinity,
           height: media.width * 0.8,
-          color: Ucolor.black.withOpacity(0.6),
+          color: Ucolor.black.withOpacity(0.5),
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
@@ -177,17 +173,17 @@ class _ExercisesViewState extends State<ExercisesView> {
   }
 
   Widget _buildAddToScheduleButton() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+    return Container(
+      color: Ucolor.white,
       child: RoundedButton(
         textColor: Ucolor.white,
         title: 'Add to Schedule',
+        width: 180,
         height: 55,
         gradient: Ucolor.fitnessGradient,
         onPressed: checkedExercises.isNotEmpty
             ? onBtnPressed
             : () {
-                // Handle case when no exercises are selected
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Please select at least one exercise.'),

@@ -4,7 +4,7 @@ import 'package:pyramend/task_management/viewModel/cubit/task_cubit.dart';
 class PriorityField extends StatelessWidget {
   final TaskCubit cubit;
 
-  const PriorityField({required this.cubit});
+  const PriorityField({super.key, required this.cubit});
 
   @override
   Widget build(BuildContext context) {

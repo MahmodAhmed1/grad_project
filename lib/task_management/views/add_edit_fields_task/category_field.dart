@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pyramend/task_management/shared/constants/icons.dart';
 import 'package:pyramend/task_management/viewModel/cubit/task_cubit.dart';
-import 'package:pyramend/task_management/viewModel/cubit/task_cubit.dart';
 
 class CategoryField extends StatelessWidget {
   final TaskCubit cubit;
 
-  const CategoryField({required this.cubit});
+  const CategoryField({super.key, required this.cubit});
 
   @override
   Widget build(BuildContext context) {

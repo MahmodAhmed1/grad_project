@@ -8,8 +8,8 @@ class Ucolor {
   static List<Color> get primaryG => [primaryColor2, primaryColor1];
 
   // Fitness Colors
-  static Color get fitnessPrimaryColor1 => Color.fromARGB(124, 241, 108, 148);
-  static Color get fitnessPrimaryColor2 => Color.fromARGB(255, 72, 93, 202);
+  static Color get fitnessPrimaryColor1 => Color.fromARGB(181, 241, 108, 148);
+  static Color get fitnessPrimaryColor2 => Color.fromARGB(181, 72, 93, 202);
 
   static List<Color> get fitnessPrimaryColors =>
       [fitnessPrimaryColor1, fitnessPrimaryColor2];

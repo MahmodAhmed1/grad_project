@@ -76,7 +76,7 @@ class _FocusModeState extends State<FocusMode> with TickerProviderStateMixin {
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
+            backgroundColor: const Color.fromARGB(0, 177, 177, 177),
             leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -88,8 +88,8 @@ class _FocusModeState extends State<FocusMode> with TickerProviderStateMixin {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  const Color.fromARGB(255, 66, 123, 131).withOpacity(.8),
-                  Colors.transparent,
+                  const Color.fromARGB(186, 18, 125, 139).withOpacity(.8),
+                  const Color.fromARGB(120, 226, 226, 226),
                 ],
                 begin: Alignment.bottomCenter,
                 end: Alignment.topCenter,
@@ -101,15 +101,15 @@ class _FocusModeState extends State<FocusMode> with TickerProviderStateMixin {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      SizedBox(
-                        width: 300,
-                        height: 300,
-                        child: CircularProgressIndicator(
-                          color: mainButtonColor,
-                          value: progress,
-                          strokeWidth: 6,
-                        ),
-                      ),
+                      // SizedBox(
+                      //   width: 300,
+                      //   height: 300,
+                      //   child: CircularProgressIndicator(
+                      //     color: Color.fromARGB(143, 161, 161, 161),
+                      //     value: progress,
+                      //     strokeWidth: 12,
+                      //   ),
+                      // ),
                       GestureDetector(
                         onTap: () {
                           if (controller.isDismissed) {
@@ -134,7 +134,7 @@ class _FocusModeState extends State<FocusMode> with TickerProviderStateMixin {
                           builder: (context, child) => Text(
                             countText,
                             style: const TextStyle(
-                              color: Colors.black,
+                              color: Color.fromARGB(255, 255, 255, 255),
                               fontSize: 60,
                               fontWeight: FontWeight.bold,
                             ),

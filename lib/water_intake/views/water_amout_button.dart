@@ -23,7 +23,7 @@ class WaterAmountButton extends StatelessWidget {
           width: 100,
           height: 80,
         ),
-        Container(
+        SizedBox(
           width: 20.0, // Custom width
           height: 20.0, // Custom height
           child: FloatingActionButton(
@@ -34,7 +34,7 @@ class WaterAmountButton extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: onAddPressed,
-          child: Text('+${amount} ml'),
+          child: Text('+$amount ml'),
         ),
       ],
     );
