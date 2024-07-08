@@ -35,6 +35,12 @@ class DescriptionField extends StatelessWidget {
           ),
           minLines: 1,
           maxLines: 5,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please select a Description';
+            }
+            return null;
+          },
         ),
       ],
     );

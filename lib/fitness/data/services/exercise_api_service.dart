@@ -2,17 +2,20 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:pyramend/fitness/data/models/exercise_model.dart';
 import 'package:pyramend/shared/componenets/constants/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ExerciseService {
   // http://10.0.2.2:3000/api
   // static String baseUrl = APIurlLocal;
 
   static String baseUrl = '$APIurlLocal/exercises';
-  static String userToken = token;
+  // static String userToken = token;
 
   // Function to fetch all exercises
   static Future<List<Exercise>> getAllExercises() async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.get(
         Uri.parse(baseUrl),
         headers: {
@@ -37,6 +40,8 @@ class ExerciseService {
   static Future<List<Exercise>> fetchExercisesByBodyPart(
       String bodyPart) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       print('Sending request to $baseUrl/workouts/$bodyPart');
       final response = await http.get(
         Uri.parse('$baseUrl/fetch/$bodyPart'),
@@ -63,6 +68,8 @@ class ExerciseService {
   // Function to fetch exercise by ID
   static Future<Exercise> fetchExerciseById(String id) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.get(
         Uri.parse('$baseUrl/$id'),
         headers: {
@@ -85,6 +92,8 @@ class ExerciseService {
   // Function to create a new exercise
   static Future<Exercise> createExercise(Exercise exercise) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.post(
         Uri.parse(
           baseUrl,
@@ -112,6 +121,8 @@ class ExerciseService {
   static Future<Exercise> updateExercise(
       String id, Exercise updatedExercise) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.put(
         Uri.parse('$baseUrl/$id'),
         headers: {
@@ -136,6 +147,8 @@ class ExerciseService {
   // Function to delete exercise by ID
   static Future<void> deleteExercise(String id) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.delete(
         Uri.parse('$baseUrl/$id'),
         headers: {
@@ -154,6 +167,8 @@ class ExerciseService {
   // Function to get exercise weight by ID
   static Future<int> getExerciseWeight(String id) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.get(
         Uri.parse('$baseUrl/$id/weight'),
         headers: {
@@ -176,6 +191,8 @@ class ExerciseService {
   // Function to set exercise weight by ID
   static Future<int> setExerciseWeight(String id, int weight) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.put(
         Uri.parse('$baseUrl/$id/weight'),
         headers: {'Content-Type': 'application/json'},
@@ -197,6 +214,8 @@ class ExerciseService {
   // Function to get exercise repetitions by ID
   static Future<int> getExerciseRepetitions(String id) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.get(
         Uri.parse('$baseUrl/$id/repeats'),
         headers: {
@@ -219,6 +238,8 @@ class ExerciseService {
   // Function to set exercise repetitions by ID
   static Future<int> setExerciseRepetitions(String id, int repetitions) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.put(
         Uri.parse('$baseUrl/$id/repeats'),
         headers: {
@@ -243,6 +264,8 @@ class ExerciseService {
   // Function to get exercise sets by ID
   static Future<int> getExerciseSets(String id) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.get(
         Uri.parse('$baseUrl/$id/sets'),
         headers: {
@@ -265,6 +288,8 @@ class ExerciseService {
   // Function to set exercise sets by ID
   static Future<int> setExerciseSets(String id, int sets) async {
     try {
+      final prefs = await SharedPreferences.getInstance();
+      String userToken = prefs.getString('token') ?? '';
       final response = await http.put(
         Uri.parse('$baseUrl/$id/sets'),
         headers: {

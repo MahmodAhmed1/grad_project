@@ -48,7 +48,7 @@ class DurationField extends StatelessWidget {
           },
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return "0";
+              return "Please select a Duration";
             }
             return null;
           },

@@ -107,7 +107,7 @@ class WaterTubeContainer extends StatelessWidget {
       children: [
         Container(
           width: 30,
-          height: 400,
+          height: 320,
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 250, 250, 250),
             borderRadius: BorderRadius.circular(20),
@@ -118,8 +118,8 @@ class WaterTubeContainer extends StatelessWidget {
           child: Container(
             width: 30,
             height: cubit.calculatePercentage(),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
                 colors: [
                   Color.fromARGB(160, 33, 149, 243),
                   Color.fromARGB(255, 137, 117, 255),
@@ -128,8 +128,14 @@ class WaterTubeContainer extends StatelessWidget {
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
+                topLeft: cubit.calculatePercentage() >= 320
+                    ? Radius.circular(50)
+                    : Radius.zero,
+                topRight: cubit.calculatePercentage() >= 320
+                    ? Radius.circular(50)
+                    : Radius.zero,
+                bottomLeft: const Radius.circular(20),
+                bottomRight: const Radius.circular(20),
               ),
             ),
           ),

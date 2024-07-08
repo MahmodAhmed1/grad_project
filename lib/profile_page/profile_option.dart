@@ -45,7 +45,9 @@ class ProfileOption extends StatelessWidget {
               icon.startsWith('assets/')
                   ? Image.asset(icon, height: 24, width: 24)
                   : Icon(
-                      IconData(int.parse(icon), fontFamily: 'MaterialIcons')),
+                      IconData(int.parse(icon), fontFamily: 'MaterialIcons'),
+                      color: Colors.grey,
+                    ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(

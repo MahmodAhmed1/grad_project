@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:pyramend/meals/views/recommend_meals.dart';
-import 'package:pyramend/shared/componenets/constants/constants.dart';
+import 'package:pyramend/task_management/shared/components/components.dart';
 import '../../authentication/views/provider.dart';
 import '../../shared/componenets/common_widgets/buttons.dart'; // Assuming you have a RoundedButton widget
 import '../../shared/styles/colors/colors.dart'; // Assuming you have a Ucolor class for colors
@@ -35,20 +35,22 @@ class _MealViewState extends State<MealView> {
     final meals = userProvider.meals;
     final totalMealsCalories = userProvider.totalMealsCalories;
     final totalNeedCalories = userProvider.totalNeedCalories;
+    final isLoading = userProvider.isLoading;
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Meal Schedule',
           style: TextStyle(
-            color: Colors.black,
-            fontSize: mediumFontSize,
-            fontWeight: FontWeight.bold,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            height: 1.5,
           ),
         ),
       ),
-      body: meals.isEmpty
+      body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : RefreshIndicator(
               onRefresh: _refreshMeals,
@@ -56,21 +58,17 @@ class _MealViewState extends State<MealView> {
                 children: [
                   buildBanner(totalMealsCalories, totalNeedCalories),
                   Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(
-                          10.0), // Adjust the padding as needed
-                      child: ListView(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        children: [
-                          buildMealSection('Breakfast'),
-                          buildMealSection('Lunch'),
-                          buildMealSection('Dinner'),
-                          buildMealSection('Snack'),
-                        ],
-                      ),
+                    child: ListView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: [
+                        buildMealSection('Breakfast', meals),
+                        buildMealSection('Lunch', meals),
+                        buildMealSection('Dinner', meals),
+                        buildMealSection('Snack', meals),
+                      ],
                     ),
                   ),
-                  buildStaticPart(), // Add the static part here
+                  buildStaticPart(),
                 ],
               ),
             ),
@@ -127,6 +125,14 @@ class _MealViewState extends State<MealView> {
                       ),
                       Text(
                         messageText,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                      sizedBoxHeight(10),
+                      Text(
+                        'Total Calories $totalMealsCalories',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
@@ -242,7 +248,6 @@ class _MealViewState extends State<MealView> {
                 ],
               ),
               onPressed: () {
-                // Navigate to AddMeal and wait for result
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -250,7 +255,6 @@ class _MealViewState extends State<MealView> {
                   ),
                 ).then((result) {
                   if (result == true) {
-                    // Check the result
                     _refreshMeals();
                   }
                 });
@@ -262,17 +266,16 @@ class _MealViewState extends State<MealView> {
     );
   }
 
-  Widget buildMealSection(String mealType) {
-    final meals = Provider.of<UserProvider>(context).meals;
+  Widget buildMealSection(String mealType, List<Map<String, dynamic>> meals) {
     List<Map<String, dynamic>> mealTypeList =
         meals.where((meal) => meal['mealType'] == mealType).toList();
 
-    // Calculate number of meals and sum of calories
     int mealCount = mealTypeList.length;
     int totalCalories = 0;
     for (var meal in mealTypeList) {
       totalCalories += meal['calories'] as int;
     }
+
     return mealTypeList.isEmpty
         ? const SizedBox.shrink()
         : Column(
@@ -288,9 +291,6 @@ class _MealViewState extends State<MealView> {
                       style: const TextStyle(
                           fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    const SizedBox(
-                      height: 50,
-                    ),
                     Text(
                       '$mealCount meals | $totalCalories calories',
                       style: const TextStyle(
@@ -301,7 +301,7 @@ class _MealViewState extends State<MealView> {
                         color: Color(0xFFADA4A5),
                       ),
                     )
-                  ], // |
+                  ],
                 ),
               ),
               ListView.builder(
@@ -396,7 +396,7 @@ class _MealViewState extends State<MealView> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        '${meal['NotificationHour']} | $statusText | $calories calories', // Display calories here
+                        '${meal['NotificationHour']} | $statusText | $calories calories',
                         style: const TextStyle(
                           fontFamily: 'Poppins',
                           fontWeight: FontWeight.w400,
@@ -422,15 +422,13 @@ class _MealViewState extends State<MealView> {
                           await Provider.of<UserProvider>(context,
                                   listen: false)
                               .updateMeal(context, meal['mealName']);
-                          setState(() {
-                            _refreshMeals();
-                          });
+                          _refreshMeals();
                         } catch (e) {
-                          // Handle the error, e.g. show an error message
+                          // Handle the error
                         }
                       },
                 child: Opacity(
-                  opacity: taken ? 0.3 : 1,
+                  opacity: taken ? 0.5 : 1,
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(0, 0, 3.5, 0),
                     width: 22.5,
@@ -444,11 +442,9 @@ class _MealViewState extends State<MealView> {
                   try {
                     await Provider.of<UserProvider>(context, listen: false)
                         .deleteMeal(context, meal['mealName']);
-                    setState(() {
-                      _refreshMeals();
-                    });
+                    _refreshMeals();
                   } catch (e) {
-                    // Handle the error, e.g. show an error message
+                    // Handle the error
                   }
                 },
                 child: Container(

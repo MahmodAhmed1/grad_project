@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   Expanded(
                     child: Center(
                       child: Text(
-                        "$userName",
+                        userName,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -142,7 +142,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ProfileSection(
                 title: "Account",
                 options: [
-                  ProfileOption(
+                  const ProfileOption(
                     destination: MealView(),
                     icon: 'assets/icons/meal_menu_icon.png',
                     label: "Track your Meals",
@@ -157,12 +157,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     icon: 'assets/icons/task_menu_icon.png',
                     label: "Check your Tasks",
                   ),
-                  ProfileOption(
+                  const ProfileOption(
                     destination: WaterIntakeHome(),
                     icon: 'assets/icons/water_menu_icon.png',
                     label: "Track your Water Intake",
                   ),
-                  ProfileOption(
+                  const ProfileOption(
                     destination: HealthView(),
                     icon: 'assets/imgs/pills.png',
                     label: "Follow your Medications",
@@ -174,17 +174,17 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: "Other",
                 options: [
                   ProfileOption(
-                    destination: HomePage(),
+                    destination: const HomePage(),
                     icon: Icons.mail_outline.codePoint.toString(),
                     label: "Contact Us",
                   ),
                   ProfileOption(
-                    destination: HomePage(),
+                    destination: const HomePage(),
                     icon: Icons.privacy_tip_outlined.codePoint.toString(),
                     label: "Privacy Policy",
                   ),
                   ProfileOption(
-                    destination: HomePage(),
+                    destination: const HomePage(),
                     icon: Icons.logout.codePoint.toString(),
                     label: "User Logout",
                     onTap: () {

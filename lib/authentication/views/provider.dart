@@ -321,38 +321,49 @@ class UserProvider with ChangeNotifier {
 
   int totalMealsCalories = 0;
   int totalNeedCalories = 0;
+  bool _isLoading = false; // Add isLoading property
+  bool get isLoading => _isLoading;
 
   Future<void> fetchMeals() async {
     try {
+      _isLoading = true; // Set isLoading to true before HTTP request
+      notifyListeners();
       final response = await http.get(
         Uri.parse('$APIurlLocal/meal/getMeal'),
         headers: {
           'Authorization': 'Bearer $_token',
-          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Origin": "",
           'Content-Type': 'application/json',
-          'Accept': '*/*'
+          'Accept': '/*'
         },
       );
-
+      _isLoading = false; // Set isLoading to false after HTTP request
+      notifyListeners();
+      print(response.statusCode);
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
 
-        if (responseData['data'] is List) {
-          _meals = List<Map<String, dynamic>>.from(responseData['data']);
+        if (responseData['data'] != null) {
+          if (responseData['data'] is List) {
+            _meals = List<Map<String, dynamic>>.from(responseData['data']);
+          } else {
+            _meals = [Map<String, dynamic>.from(responseData['data'])];
+          }
+          totalMealsCalories = responseData['totalMealsCalories'];
         } else {
-          _meals = [Map<String, dynamic>.from(responseData['data'])];
+          _meals = [];
+          totalMealsCalories = 0;
         }
-
-        totalMealsCalories = responseData['totalMealsCalories'];
-        totalNeedCalories = responseData['totalneedCalories'];
-
+        totalNeedCalories = responseData['totalNeededCalories'];
         notifyListeners();
       } else {
-        throw Exception('Failed to load meals');
+        print('Failed to load meals: ${response.statusCode}');
+        // Handle other status codes if needed
       }
     } catch (e) {
+      _isLoading = false; // Ensure isLoading is set to false in case of error
       print('Error fetching meals: $e');
-      throw e; // Rethrow the exception to propagate it
+      throw e; // Rethrow the exception to propagate it if necessary
     }
   }
 

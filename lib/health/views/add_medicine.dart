@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../main.dart';
 import '../../shared/componenets/common_widgets/selectable_box.dart';
@@ -39,18 +40,18 @@ class _AddMedicineState extends State<AddMedicine> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Row(
+          title: Row(
             children: [
               Icon(Icons.warning, color: Colors.red),
               SizedBox(width: 8),
               Text('Emergency Note'),
             ],
           ),
-          content: const Text(
+          content: Text(
               'You MUST do a sensitivity test before you take the medicine'),
           actions: [
             TextButton(
-              child: const Text('OK'),
+              child: Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -98,7 +99,7 @@ class _AddMedicineState extends State<AddMedicine> {
     DateTime scheduledDate =
         DateTime(now.year, now.month, now.day, hour, minute);
     if (scheduledDate.isBefore(now)) {
-      scheduledDate = scheduledDate.add(const Duration(
+      scheduledDate = scheduledDate.add(Duration(
           days: 1)); // Schedule for the next day if the time has already passed
     }
 
@@ -118,7 +119,7 @@ class _AddMedicineState extends State<AddMedicine> {
         'Notification scheduled for $scheduledDateTime in timezone $timeZoneName'); // Debug statement
 
     AndroidNotificationDetails androidPlatformChannelSpecifics =
-        const AndroidNotificationDetails(
+        AndroidNotificationDetails(
       'your_channel_id', // Replace with a unique channel ID
       'your_channel_name', // Replace with a channel name
       importance: Importance.max,
@@ -143,12 +144,12 @@ class _AddMedicineState extends State<AddMedicine> {
 
   Widget buildTitle(String text) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+      margin: EdgeInsets.fromLTRB(0, 0, 0, 4),
       child: Align(
         alignment: Alignment.topLeft,
         child: Text(
           text,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w700,
             fontSize: 15,
@@ -176,12 +177,23 @@ class _AddMedicineState extends State<AddMedicine> {
     }
   }
 
+  Future<void> _requestExactAlarmPermission() async {
+    if (await Permission.scheduleExactAlarm.request().isGranted) {
+      print("Exact alarm permission granted");
+    } else {
+      print("Exact alarm permission denied");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Exact alarm permission is required')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text(
+        title: Text(
           'Add Medicine',
           style: TextStyle(
             fontFamily: 'Poppins',
@@ -218,7 +230,7 @@ class _AddMedicineState extends State<AddMedicine> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           buildTitle('Dose'),
-                          const Text(
+                          Text(
                             "Too much pills can cause death",
                             style: TextStyle(color: Colors.red, fontSize: 12),
                           ),
@@ -269,8 +281,7 @@ class _AddMedicineState extends State<AddMedicine> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          // Add some spacing between the boxes
+                          SizedBox(width: 8),
                           Expanded(
                             child: SelectableBox(
                               text: 'In Middle',
@@ -283,8 +294,7 @@ class _AddMedicineState extends State<AddMedicine> {
                               },
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          // Add some spacing between the boxes
+                          SizedBox(width: 8),
                           Expanded(
                             child: SelectableBox(
                               text: 'After',
@@ -316,21 +326,21 @@ class _AddMedicineState extends State<AddMedicine> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
                     ],
                   ),
                 ),
               ),
             ),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.2),
                     spreadRadius: 3,
                     blurRadius: 7,
-                    offset: const Offset(0, 3),
+                    offset: Offset(0, 3),
                   ),
                 ],
                 gradient: LinearGradient(

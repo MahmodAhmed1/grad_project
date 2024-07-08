@@ -39,7 +39,7 @@ class WaterRecommendation extends StatelessWidget {
                     const SizedBox(height: 6),
                     Center(
                       child: Text(
-                        "${cubit.recommendedWater} Liter",
+                        "${(cubit.recommendedWater / 1000).toStringAsFixed(1)} Liter",
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,

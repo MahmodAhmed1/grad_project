@@ -76,15 +76,15 @@ class _SignUpState extends State<SignUp> {
           'Accept': '*/*',
         },
       );
-
+      final responseData = jsonDecode(response.body);
       if (response.statusCode == 201 || response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
         print('Response: $responseData');
         if (responseData['status'] == 'success') {
           print('Message: ${responseData['message']}');
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Signed up successfully! ${responseData['message']}'),
+              content:
+                  Text('Signed up successfully! ${responseData['message']}'),
             ),
           );
 
@@ -94,13 +94,15 @@ class _SignUpState extends State<SignUp> {
             builder: (context) {
               return AlertDialog(
                 title: Text('Email Verification'),
-                content: Text('We have sent a verification email to your address. Please verify it to start mending your life!'),
+                content: Text(
+                    'We have sent a verification email to your address. Please verify it to start mending your life!'),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => OnboardingPage1()),
+                        MaterialPageRoute(
+                            builder: (context) => OnboardingPage1()),
                       );
                     },
                     child: Text('OK'),
@@ -121,7 +123,7 @@ class _SignUpState extends State<SignUp> {
         print('Failed to sign up: ${response.statusCode}');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to sign up. Please try again later.'),
+            content: Text('Failed to sign up. ${responseData['message']}'),
           ),
         );
       }
@@ -129,7 +131,8 @@ class _SignUpState extends State<SignUp> {
       print('Error signing up: $error');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('An error occurred while signing up. Please try again later.'),
+          content: Text(
+              'An error occurred while signing up. Please try again later.'),
         ),
       );
     }
@@ -178,7 +181,7 @@ class _SignUpState extends State<SignUp> {
                                   horizontal: 15, vertical: 5),
                               hintText: 'Name',
                               prefixIconPath:
-                              'assets/icons/profile_menu_icon.png',
+                                  'assets/icons/profile_menu_icon.png',
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your name';
@@ -228,7 +231,8 @@ class _SignUpState extends State<SignUp> {
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your email';
-                                } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                                } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                                    .hasMatch(value)) {
                                   return 'Please enter a valid email';
                                 }
                                 return null;
@@ -267,8 +271,8 @@ class _SignUpState extends State<SignUp> {
                               },
                             ),
                             RoundedTextField(
-                              keyboardType:
-                              TextInputType.numberWithOptions(decimal: false),
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: false),
                               controller: ageController,
                               margin: EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 5),
@@ -377,7 +381,6 @@ class _SignUpState extends State<SignUp> {
                     backgroundColor: Ucolor.DarkGray,
                     textColor: Ucolor.white,
                   ),
-
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

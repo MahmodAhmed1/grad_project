@@ -20,8 +20,8 @@ class _OnboardingPage1State extends State<OnboardingPage1>
       description:
           'Do you want to build more muscles or lose weight ?\n...\nReach your goal',
       backgroundColor: [
-        Color(0xFF677ADC),
-        Color(0xFFEC8CA9),
+        const Color(0xFF677ADC),
+        const Color(0xFFEC8CA9),
       ],
     ),
     OnboardingData(
@@ -30,8 +30,8 @@ class _OnboardingPage1State extends State<OnboardingPage1>
       description:
           ' Start a healthy lifestyle , You can determine your diet every day\n...\nhealthy food is fun',
       backgroundColor: [
-        Color(0xFFF4F696),
-        Color(0xFFE6877A),
+        const Color(0xFFF4F696),
+        const Color(0xFFE6877A),
       ],
     ),
     OnboardingData(
@@ -40,8 +40,8 @@ class _OnboardingPage1State extends State<OnboardingPage1>
       description:
           'Improve the quality of your work, study and more\n...\n Be focus on your goal without disturbance',
       backgroundColor: [
-        Color(0xFF8FEDE2),
-        Color(0xFF9DCEFF),
+        const Color(0xFF8FEDE2),
+        const Color(0xFF9DCEFF),
       ],
     ),
   ];
@@ -51,7 +51,7 @@ class _OnboardingPage1State extends State<OnboardingPage1>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
     );
   }
 
@@ -67,14 +67,14 @@ class _OnboardingPage1State extends State<OnboardingPage1>
       backgroundColor: Ucolor.white,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                  child: Text(
+                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 40),
+                  child: const Text(
                     'What is your goal ?',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -86,10 +86,10 @@ class _OnboardingPage1State extends State<OnboardingPage1>
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Container(
-                  margin: EdgeInsets.fromLTRB(20, 0, 18.2, 0),
-                  child: Text(
+                  margin: const EdgeInsets.fromLTRB(20, 0, 18.2, 0),
+                  child: const Text(
                     'We can help you track your goals',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -101,12 +101,11 @@ class _OnboardingPage1State extends State<OnboardingPage1>
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 _buildOnboardingContainer(),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 RoundedButton(
                   width: double.maxFinite,
-
                   title: currentIndex == onboardingData.length - 1
                       ? 'Finish'
                       : 'Next',
@@ -146,14 +145,14 @@ class _OnboardingPage1State extends State<OnboardingPage1>
             child: SlideTransition(
               position: Tween<Offset>(
                 begin: Offset.zero,
-                end: Offset(-1.0, 0.0),
+                end: const Offset(-1.0, 0.0),
               ).animate(_controller),
               child: _buildOnboardingContent(currentIndex - 1),
             ),
           ),
           SlideTransition(
             position: Tween<Offset>(
-              begin: Offset(1.0, 0.0),
+              begin: const Offset(1.0, 0.0),
               end: Offset.zero,
             ).animate(_controller),
             child: _buildOnboardingContent(currentIndex),
@@ -162,6 +161,7 @@ class _OnboardingPage1State extends State<OnboardingPage1>
       );
     }
   }
+
   Widget _buildOnboardingContent(int index) {
     return Container(
       decoration: BoxDecoration(
@@ -171,21 +171,19 @@ class _OnboardingPage1State extends State<OnboardingPage1>
           colors: onboardingData[index].backgroundColor,
         ),
         borderRadius: BorderRadius.circular(30),
-
-
       ),
       child: SizedBox(
-        width: 300,
+        width: 340,
         child: Padding(
-          padding: EdgeInsets.fromLTRB(0, 35, 0, 10),
+          padding: const EdgeInsets.fromLTRB(0, 35, 0, 10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(0, 0, 2.4, 24.8),
+                margin: const EdgeInsets.fromLTRB(0, 0, 2.4, 24.8),
                 child: SizedBox(
-                  width: 183.4,
+                  width: 200,
                   height: 290.2,
                   child: Image.asset(
                     onboardingData[index].image,
@@ -197,24 +195,24 @@ class _OnboardingPage1State extends State<OnboardingPage1>
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 2, 3),
+                    margin: const EdgeInsets.fromLTRB(0, 0, 2, 3),
                     child: Text(
                       onboardingData[index].title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
                         height: 1.5,
                         color: Color(0xFFFFFFFF),
                       ),
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 1, 21),
+                    margin: const EdgeInsets.fromLTRB(0, 0, 1, 21),
                     width: 50,
                     height: 1,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color(0xFFF7F8F8),
                       ),
                       child: Container(
@@ -227,9 +225,9 @@ class _OnboardingPage1State extends State<OnboardingPage1>
                     child: Text(
                       onboardingData[index].description,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w600,
                         fontSize: 12,
                         height: 1.5,
                         color: Color(0xFFFFFFFF),
@@ -243,7 +241,8 @@ class _OnboardingPage1State extends State<OnboardingPage1>
         ),
       ),
     );
-  }}
+  }
+}
 
 class OnboardingData {
   final String image;

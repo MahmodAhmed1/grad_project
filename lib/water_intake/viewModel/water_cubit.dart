@@ -44,12 +44,19 @@ class WaterCubit extends Cubit<WaterStates> {
   double calculatePercentage() {
     // Ensure waterTarget and waterConsumed are not negative
     waterTarget = waterTarget >= 0 ? waterTarget : 0;
-    var waterConsumed =
-        waterConsume >= 0 && waterConsume <= waterTarget ? waterConsume : 0;
+    var waterConsumed;
+    if (waterConsume <= 0) {
+      waterConsumed = 0;
+    }
+    if (waterConsume >= waterTarget) {
+      waterConsumed = waterTarget;
+    } else {
+      waterConsumed = waterConsume;
+    }
     // Calculate percentage
-    double percentage = (waterConsumed / waterTarget) * 400;
+    double percentage = (waterConsumed / waterTarget) * 320;
     // Ensure percentage is between 0 and 100
-    percentage = percentage.clamp(0, 400);
+    percentage = percentage.clamp(0, 320);
     return percentage;
   }
 
@@ -59,7 +66,6 @@ class WaterCubit extends Cubit<WaterStates> {
     } else {
       waterTarget = amount;
       fetchWaterIntakeData(inputTarget: waterTarget);
-      addWaterConsumption(0);
       showSuccessToastSuc("Target Updated Successfully ✔");
     }
   }
@@ -78,28 +84,19 @@ class WaterCubit extends Cubit<WaterStates> {
 
   double percentageOfWater() {
     double percentage = (waterConsume / waterTarget).abs();
-    // print(percentage);
-    // emit(AppPercentageOfWaterState());
     return percentage >= 1 ? 1 : (percentage >= 0 ? percentage : 0);
   }
 
   Future<void> fetchWaterIntakeData({int inputTarget = 0}) async {
-    emit(AppLoadingState());
+    // emit(AppLoadingState());
     try {
-      // Simulate a delay for the API call
-      await Future.delayed(const Duration(seconds: 2));
-
-      // Assuming fetchWaterIntakeData returns Map<String, dynamic>
       Map<String, dynamic> waterIntakeData =
           await WaterIntakeApi().fetchWaterIntakeData(inputTarget);
-
-      // Accessing the fields from the map
       recommendedWater = waterIntakeData['target'];
       waterTarget = waterIntakeData['inputTarget'];
       userName = waterIntakeData['userName'];
       remaining = waterTarget - waterConsume;
       remaining < 0 ? remaining = 0 : remaining;
-      // x = waterConsume;
       emit(AppDataLoadedState());
     } catch (e) {
       emit(AppErrorState());
@@ -117,12 +114,11 @@ class WaterCubit extends Cubit<WaterStates> {
       formattedTarget =
           "${x.toStringAsFixed(3).replaceAll(RegExp(r'0*$'), '').replaceAll(RegExp(r'\.$'), '')} Liters";
     }
-
     return formattedTarget;
   }
 
   Future<void> addWaterConsumption(int amount) async {
-    emit(AppLoadingState());
+    // emit(AppLoadingState());
     try {
       if (amount < 0 && waterConsume + amount < 0) {
         amount = -waterConsume;

@@ -21,8 +21,8 @@ class WaterIntakeHome extends StatelessWidget {
         WaterCubit cubit = WaterCubit.get(context);
 
         if (state is AppInitialStates) {
-          cubit.fetchWaterIntakeData();
-          cubit.addWaterConsumption(0);
+          // cubit.fetchWaterIntakeData();
+          // cubit.addWaterConsumption(0);
         }
 
         return Scaffold(

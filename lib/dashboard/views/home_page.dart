@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:pyramend/dashboard/data/models/chart_spline_data.dart';
 import 'package:pyramend/dashboard/views/task_management_status/dashboard_tasks.dart';
 import 'package:pyramend/dashboard/views/water_status/activity_status_widget.dart';
+import 'package:pyramend/health/views/health.dart';
 import 'package:pyramend/profile_page/user_profile_widget.dart';
 import 'package:pyramend/shared/componenets/common_widgets/chart_container.dart';
 import 'package:pyramend/shared/componenets/common_widgets/circular_indicator.dart';
@@ -25,6 +26,9 @@ class _HomePageState extends State<HomePage> {
   String userName = '';
   int _steps = 0;
   late Stream<StepCount> _stepCountStream;
+  late Future<Map<String, dynamic>> medicineFuture;
+  int medicineCount = 0;
+  int takenCount = 0;
 
   @override
   void initState() {
@@ -38,6 +42,15 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       userName = prefs.getString('userName') ?? '';
+      medicineFuture =
+          Provider.of<UserProvider>(context, listen: false).getMedicine();
+    });
+
+    final medicineData = await medicineFuture;
+    final data = medicineData['data'] ?? [];
+    setState(() {
+      medicineCount = data.length;
+      takenCount = data.where((item) => item['taken'] == true).length;
     });
   }
 
@@ -60,7 +73,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       backgroundColor: Ucolor.white,
       body: SafeArea(
@@ -94,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                           ),
                           Text(
-                            "$userName",
+                            userName,
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
@@ -149,16 +161,105 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: screenHeight * 0.02),
               const ChartContainer(),
-              SizedBox(height: screenHeight * 0.02),
-              const WorkoutProgressContainer(),
-              SizedBox(height: screenHeight * 0.02),
-              ElevatedButton(
-                onPressed: () {
-                  Provider.of<UserProvider>(context, listen: false)
-                      .clearLoginState(context);
+              SizedBox(height: screenHeight * 0.05),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HealthView()));
                 },
-                child: const Text("Logout"),
+                child: Container(
+                  margin: const EdgeInsets.fromLTRB(10, 0, 0, 39),
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(0, 0, 28, 0),
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF3F6C8),
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Container(
+                              padding: const EdgeInsets.fromLTRB(24, 53, 0, 53),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Container(
+                                    margin:
+                                        const EdgeInsets.fromLTRB(0, 0, 0, 2),
+                                    child: const Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Text(
+                                        'Your medicines\nfor today',
+                                        style: TextStyle(
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w800,
+                                          fontSize: 18,
+                                          decoration: TextDecoration.none,
+                                          height: 1.3,
+                                          color: Color(0xFF0A0909),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Opacity(
+                                      opacity: 0.6,
+                                      child: Text(
+                                        '$takenCount of $medicineCount done',
+                                        style: const TextStyle(
+                                          fontFamily: 'Poppins',
+                                          decoration: TextDecoration.none,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 15,
+                                          height: 2.2,
+                                          color: Color(0xFF000000),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 35,
+                          right: -40,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: AssetImage(
+                                      'assets/imgs/medicine_cover.png',
+                                    ),
+                                  ),
+                                ),
+                                child: Container(
+                                  width: 208,
+                                  height: 126,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
+
+              // const WorkoutProgressContainer(),
+              // SizedBox(height: screenHeight * 0.02),
             ],
           ),
         ),

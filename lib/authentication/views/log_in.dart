@@ -5,15 +5,11 @@ import 'package:pyramend/authentication/views/provider.dart';
 import 'package:pyramend/authentication/views/sign_up.dart';
 import 'package:pyramend/dashboard/views/home_page.dart';
 import 'dart:convert';
-import 'package:pyramend/meals/views/meal_view.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // Add this import
-
-import '../../health/views/health.dart';
 import '../../shared/componenets/common_widgets/buttons.dart';
 import '../../shared/componenets/common_widgets/text_fields.dart';
 import '../../shared/componenets/constants/constants.dart';
 import '../../shared/styles/colors/colors.dart';
-import '../view_models/square_tile.dart';
 
 class LogIn extends StatefulWidget {
   LogIn({Key? key}) : super(key: key);
@@ -34,8 +30,8 @@ class _LogInState extends State<LogIn> {
       final response = await http.post(
         Uri.parse('$APIurlLocal/users/login'),
         body: jsonEncode({
-          'email': "Fares777@gmail.com",
-          'password': "Fares123",
+          'email': email,
+          'password': password,
         }),
         headers: {
           "Access-Control-Allow-Origin": "*",
@@ -166,26 +162,6 @@ class _LogInState extends State<LogIn> {
                             hintText: 'Password',
                             prefixIconPath: 'assets/icons/password_icon.png',
                             obscureText: true,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.fromLTRB(0, 0, 1.2, 0),
-                                child: const Text(
-                                  'Forgot your password?',
-                                  style: TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12,
-                                    decoration: TextDecoration.underline,
-                                    height: 1.5,
-                                    color: Color(0xFFADA4A5),
-                                    decorationColor: Color(0xFFADA4A5),
-                                  ),
-                                ),
-                              ),
-                            ],
                           ),
                         ],
                       ),
